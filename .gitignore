@@ -1,6 +1,8 @@
 *o
 *~
-config.*
+config.log
+config.status
+config.h
 configure.ac
 Makefile.am
 *hg*
@@ -10,7 +12,7 @@ generate.sh
 *m4
 .dirstamp
 temp_config*
-*pc.in
+*pc
 *autom4te*
 fileinterface/lib*
 *.out
