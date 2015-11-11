@@ -11,7 +11,7 @@ Makefile
 generate.sh
 *m4
 .dirstamp
-temp_config*
+temp_config.h
 *pc
 *autom4te*
 fileinterface/lib*
