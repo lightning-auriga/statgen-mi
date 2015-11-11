@@ -1,0 +1,4 @@
+#!/bin/sh
+autoreconf --install
+./configure --prefix=/home/cpalmer/Development/stage
+make all
