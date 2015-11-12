@@ -12295,8 +12295,6 @@ CC=$lt_save_CC
 # Only expand once:
 
 
-#AC_SRCDIR(src)
-#AC_CONFIG_FILES([Makefile])
 
 
 ac_config_headers="$ac_config_headers temp_config.h"
@@ -16301,8 +16299,6 @@ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 #	    [AX_PTHREAD]) #([CFLAGS=$CFLAGS $PTHREAD_CFLAGS])
 #fi
 
-#AX_CXX_COMPILE_STDCXX_11([ext], [optional])
-
 # Checks for libraries.
 #
 # Handle user hints
@@ -16574,7 +16570,6 @@ $as_echo "#define HAVE_LIBBZ2 1" >>confdefs.h
   fi
 fi
 
-#AX_BOOST_BASE([1.46.1])
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for cos in -lm" >&5
 $as_echo_n "checking for cos in -lm... " >&6; }
 if ${ac_cv_lib_m_cos+:} false; then :
@@ -16620,11 +16615,6 @@ _ACEOF
 
 fi
 
-#AC_CHECK_LIB([gslcblas],[cblas_dgemm])
-#AC_CHECK_LIB([gsl],[gsl_blas_dgemm])
-#AX_BOOST_CHRONO
-#AX_BOOST_SYSTEM
-#AX_BOOST_TIMER
 
 # Checks for header files.
 
@@ -16634,7 +16624,6 @@ fi
 
 ac_config_files="$ac_config_files Makefile fileinterface-1.0.pc"
 
-#AC_CONFIG_SUBDIRS([gtest-1.7.0])
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
 # tests run on this system so they can be shared between configure

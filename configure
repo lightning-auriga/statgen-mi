@@ -12310,8 +12310,6 @@ CC=$lt_save_CC
 # Only expand once:
 
 
-#AC_SRCDIR(src)
-#AC_CONFIG_FILES([Makefile])
 
 
 ac_config_headers="$ac_config_headers temp_config.h"
@@ -16306,8 +16304,6 @@ ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ex
 ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
 
-
-
 #AC_ARG_ENABLE([threads], [AS_HELP_STRING([--disable-threads],
 #		       [disable hyperthreading support (default=no)])],
 #		       [],
@@ -16913,11 +16909,6 @@ _ACEOF
 
 fi
 
-#AC_CHECK_LIB([gslcblas],[cblas_dgemm])
-#AC_CHECK_LIB([gsl],[gsl_blas_dgemm])
-#AX_BOOST_CHRONO
-#AX_BOOST_SYSTEM
-#AX_BOOST_TIMER
 
 # Checks for header files.
 
