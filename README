@@ -1,3 +1,19 @@
+UPDATE: 15 nov 2015
+major:
+-Added plink support, linear and logistic traits. PLINK is available at
+
+http://pngu.mgh.harvard.edu/~purcell/plink/download.shtml
+
+-updated example.sh to contain a PLINK-style run type
+
+minor:
+-fileinterface reconcile_writer now correctly handles .bed{,.gz,.bz2} extensions
+	       			in filenames
+
+
+
+
+ORIGINAL:
 To download for use, select the "statgen-mi.tar.gz" file.
 
 Many bugs no doubt exist in this BETA release.  Please send
@@ -38,4 +54,4 @@ See examples/example.sh for a test run configuration. Also
 
 
 
-Most recent update: 11 Nov 2015, Cameron Palmer <cdp2130@cumc.columbia.edu>
+Most recent update: 15 Nov 2015, Cameron Palmer <cdp2130@cumc.columbia.edu>
