@@ -320,6 +320,9 @@ int main(int argc, char **argv) {
 	//the submission output files, and potentially the error files if using certain queue types
 	MI::safely_remove(MI::parameters::get_parameter("mi-output-prefix") + ".draw" + MI::to_string<unsigned>(i) + ".output");
 	MI::safely_remove(MI::parameters::get_parameter("mi-output-prefix") + ".draw" + MI::to_string<unsigned>(i) + ".error", false);
+	if (current_software_input_writer->second.get_extra_file_remover()) {
+	  MI::safely_remove(current_software_input_writer->second.get_extra_file_remover()(i), false);
+	}
       }
     }
     std::cout << "all done" << std::endl;

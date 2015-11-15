@@ -63,13 +63,15 @@ namespace MI {
       : _filename_generator(0),
       _genotype_handler(0),
       _command_formatter(0),
-      _result_parser(0) {}
+      _result_parser(0),
+      _extra_file_remover(0) {}
     program_manager(const program_manager &obj)
       : _filename_generator(obj._filename_generator),
       _genotype_handler(obj._genotype_handler),
       _nongeno_handlers(obj._nongeno_handlers),
       _command_formatter(obj._command_formatter),
-      _result_parser(obj._result_parser) {}
+      _result_parser(obj._result_parser),
+      _extra_file_remover(obj._extra_file_remover) {}
     ~program_manager() throw() {}
 
     void set_filename_generator(std::string(*ptr)(unsigned, unsigned)) {_filename_generator = ptr;}
@@ -86,11 +88,16 @@ namespace MI {
 
     void set_result_parser(bool(*ptr)(const std::string &, std::string &, double &, double &, std::string &)) {_result_parser = ptr;}
     bool (*get_result_parser())(const std::string &, std::string &, double &, double &, std::string &) {return _result_parser;}
-    
+
+    void set_extra_file_remover(std::string(*ptr)(unsigned)) {_extra_file_remover = ptr;}
+    std::string (*get_extra_file_remover())(unsigned) {return _extra_file_remover;}
     void clear() {
       _filename_generator = 0;
       _genotype_handler = 0;
       _nongeno_handlers.clear();
+      _command_formatter = 0;
+      _result_parser = 0;
+      _extra_file_remover = 0;
     }
     unsigned file_count() const {return _nongeno_handlers.size();}
   private:
@@ -99,6 +106,7 @@ namespace MI {
     typename std::vector<std::string(*)(const MI::annotations &)> _nongeno_handlers;
     std::string(*_command_formatter)(std::string(*)(unsigned, unsigned), unsigned);
     bool(*_result_parser)(const std::string &, std::string &, double &, double &, std::string &);
+    std::string(*_extra_file_remover)(unsigned);
   };
   
   typedef std::map<std::string, imputation_manager> imputed_input_handler_map;
@@ -139,6 +147,20 @@ namespace MI {
 			       std::string &effect_allele);
   //supplementary function
   void snptest_test_trait_type(std::vector<std::string> &values, bool &trait_is_01, bool &trait_is_12, bool &trait_is_integral);
+  ///////////////////////////PLINK/////////////////////////////////
+  std::string plink_filename_generator(unsigned index, unsigned draw);
+  std::string plink_write_bed_line(const MI::prob_vector &vec, const MI::annotations &annot, unsigned index);
+  std::string plink_write_bim_line(const MI::annotations &annot);
+  std::string plink_write_fam_line(const MI::annotations &annot);
+  std::string plink_write_pheno_line(const MI::annotations &annot);
+  std::string plink_format_command(std::string(*filename_generator)(unsigned, unsigned),
+				   unsigned draw);
+  bool plink_process_results(const std::string &result_line,
+			     std::string &rsid,
+			     double &beta,
+			     double &stderr,
+			     std::string &effect_allele);
+  std::string plink_extra_file_remover(unsigned draw);
 }
 
 
