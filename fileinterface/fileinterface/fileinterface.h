@@ -30,7 +30,16 @@
 namespace MI {
   inline fileinterface_reader *reconcile_reader(const std::string &filename) {
     MI::fileinterface_reader *ptr = 0;
-    if (filename.find(".gz") == filename.size() - 3) {
+    /*if (filename.find(".bed.gz") == filename.size() - 7) {
+      ptr = new MI::plinkbed_reader("gzip");
+      ptr->open(filename);
+    } else if (filename.find(".bed.bz2") == filename.size() - 8) {
+      ptr = new MI::plinkbed_reader("bzip2");
+      ptr->open(filename);
+      } else if (filename.find(".bed") == filename.size() - 4) {
+      ptr = new MI::plinkbed_reader("none");
+      ptr->open(filename);
+      } else */if (filename.find(".gz") == filename.size() - 3) {
 #ifdef FILEINTERFACE_HAVE_LIBZ
       ptr = new MI::fileinterface_reader_gzip;
       ptr->open(filename);
@@ -53,7 +62,16 @@ namespace MI {
   
   inline fileinterface_writer *reconcile_writer(const std::string &filename) {
     MI::fileinterface_writer *ptr = 0;
-    if (filename.find(".gz") == filename.size() - 3) {
+    if (filename.find(".bed.gz") == filename.size() - 7) {
+      ptr = new MI::plinkbed_writer("gzip");
+      ptr->open(filename);
+    } else if (filename.find("bed.bz2") == filename.size() - 8) {
+      ptr = new MI::plinkbed_writer("bzip2");
+      ptr->open(filename);
+    } else if (filename.find(".bed") == filename.size() - 4) {
+      ptr = new MI::plinkbed_writer("none");
+      ptr->open(filename);
+    } else if (filename.find(".gz") == filename.size() - 3) {
 #ifdef FILEINTERFACE_HAVE_LIBZ
       ptr = new MI::fileinterface_writer_gzip;
       ptr->open(filename);

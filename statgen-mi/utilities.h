@@ -172,8 +172,12 @@ namespace MI {
 
   inline void safely_remove(const std::string &filename,
 			    bool error_on_fail = true) {
-    if (remove(filename.c_str()) && error_on_fail)
-      throw std::domain_error("unable to remove file \"" + filename + "\"");
+    std::istringstream strm1(filename);
+    std::string indiv_filename = "";
+    while (strm1 >> indiv_filename) {
+      if (remove(indiv_filename.c_str()) && error_on_fail)
+	throw std::domain_error("unable to remove file \"" + filename + "\"");
+    }
   }
 }
 #endif //__MI_HELPER_H__

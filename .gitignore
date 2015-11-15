@@ -16,3 +16,6 @@ fileinterface/lib*
 stamp-h1
 *tar.gz
 libtool
+examples/*txt
+examples/*log
+examples/.pversion
