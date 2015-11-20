@@ -161,6 +161,24 @@ namespace MI {
 			     double &stderr,
 			     std::string &effect_allele);
   std::string plink_extra_file_remover(unsigned draw);
+  //////////////////////////EMMAX-KIN//////////////////////////////
+  std::string emmaxkin_filename_generator(unsigned index, unsigned draw);
+  std::string emmaxkin_write_tped_line(const MI::prob_vector &vec, const MI::annotations &annot, unsigned index);
+  std::string emmaxkin_write_tfam_line(const MI::annotations &annot);
+  std::string emmaxkin_write_pheno_line(const MI::annotations &annot);
+  std::string emmaxkin_write_covar_line(const MI::annotations &annot);
+  std::string emmaxkin_format_command(std::string(*filename_generator)(unsigned, unsigned),
+				      unsigned draw);
+  //////////////////////////EMMAX//////////////////////////////////
+
+  ////////////////////////UTILITIES////////////////////////////////
+  bool placeholder_process_results(const std::string &result_line,
+				   std::string &rsid,
+				   double &beta,
+				   double &stderr,
+				   std::string &effect_allele);
+  std::string placeholder_extra_file_remover(unsigned draw);
+  /////////////////////////////////////////////////////////////////
 }
 
 

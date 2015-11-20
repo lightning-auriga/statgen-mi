@@ -118,6 +118,7 @@ bool MI::fileinterface_reader_bzip2::getline(std::string &res) {
       if (find_newline != std::string::npos) {
 	res = res.substr(0, find_newline);
 	_buf_remaining -= res.size() - res_start + get_newline().size();
+	return retval;
       } else {
 	_buf_remaining = 0;
       }

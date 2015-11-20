@@ -33,8 +33,10 @@ void MI::fileinterface_writer_gzip::open(const char *filename) {
 }
 
 void MI::fileinterface_writer_gzip::close() {
-  if (_gz_output)
+  if (_gz_output) {
     gzclose(_gz_output);
+    _gz_output = 0;
+  }
   clear();
 }
 
@@ -67,4 +69,4 @@ void MI::fileinterface_writer_gzip::write(char *buf, std::streamsize n) {
   }
 }
 
-#endif //HAVE_LIBZ
+#endif //FILEINTERFACE_HAVE_LIBZ
