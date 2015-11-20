@@ -30,7 +30,7 @@ namespace MI {
   public:
   fileinterface_reader() 
     : _good(true), _bad(false), _fail(false) {}
-    ~fileinterface_reader() throw() {}
+    virtual ~fileinterface_reader() throw() {}
 
     void open(const std::string &filename) {open(filename.c_str());}
     virtual void open(const char *filename) = 0;

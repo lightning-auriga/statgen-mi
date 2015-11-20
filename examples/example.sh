@@ -8,3 +8,8 @@
 #PLINK mode
 ../statgen-mi.out --mi-imputed-dataset-config ./mi.imputeddataset.config --mi-output-prefix result-plink --mi-program-config ./mi.program.config --mi-submission-queue-config ./mi.queue.config --program-run-type plink --imputed-dataset-type impute2 --impute2-gen-filename test.gen --impute2-sample-filename test.sample --plink-bfile-prefix testoutput.plink.draw --plink-bfile-suffix .whatever --plink-pheno-prefix testoutput.plink.draw --plink-pheno-suffix .pheno --plink-logistic --plink-pheno-name pheno --plink-vif 1000 --plink-out-prefix test-plink-results-draw --plink-out-suffix .results --mi-queue-type none
 ../statgen-mi.out --mi-imputed-dataset-config ./mi.imputeddataset.config --mi-output-prefix result-plink --mi-program-config ./mi.program.config --mi-submission-queue-config ./mi.queue.config --program-run-type plink --imputed-dataset-type impute2 --impute2-gen-filename test.gen --impute2-sample-filename test.sample --plink-bfile-prefix testoutput.plink.draw --plink-bfile-suffix .whatever --plink-pheno-prefix testoutput.plink.draw --plink-pheno-suffix .pheno --plink-logistic --plink-pheno-name pheno --plink-vif 1000 --plink-out-prefix test-plink-results-draw --plink-out-suffix .results --mi-queue-type none --mi-clean
+
+
+
+#EMMAX mode
+../statgen-mi.out --mi-imputed-dataset-config ./mi.imputeddataset.config --mi-output-prefix result-emmax --mi-program-config ./mi.program.config --mi-submission-queue-config ./mi.queue.config --program-run-type emmaxkin --imputed-dataset-type impute2 --impute2-gen-filename test.gen --impute2-sample-filename test.sample --emmaxkin-tfile-prefix testoutput.emmax.draw --emmaxkin-tfile-suffix .whatever --emmaxkin-emmax-pheno-name pheno --emmaxkin-bn --mi-queue-type none

@@ -115,6 +115,12 @@ am_statgen_mi_out_OBJECTS =  \
 	statgen-mi/statgen_mi_out-cargs.$(OBJEXT) \
 	statgen-mi/statgen_mi_out-config_interpreter.$(OBJEXT) \
 	statgen-mi/statgen_mi_out-custom_handlers.$(OBJEXT) \
+	statgen-mi/statgen_mi_out-custom_handlers_emmaxkin.$(OBJEXT) \
+	statgen-mi/statgen_mi_out-custom_handlers_impute2.$(OBJEXT) \
+	statgen-mi/statgen_mi_out-custom_handlers_placeholder.$(OBJEXT) \
+	statgen-mi/statgen_mi_out-custom_handlers_plink.$(OBJEXT) \
+	statgen-mi/statgen_mi_out-custom_handlers_snptest.$(OBJEXT) \
+	statgen-mi/statgen_mi_out-custom_handlers_userdefined.$(OBJEXT) \
 	statgen-mi/statgen_mi_out-main.$(OBJEXT) \
 	statgen-mi/statgen_mi_out-mi_calculator.$(OBJEXT) \
 	statgen-mi/statgen_mi_out-parameters.$(OBJEXT) \
@@ -430,7 +436,7 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 SUBDIRS = fileinterface
 AM_CPPFLAGS = -I$(srcdir)/fileinterface -I$(srcdir)/fileinterface/include
-statgen_mi_out_SOURCES = statgen-mi/annotations.h statgen-mi/boost_random.cc statgen-mi/boost_random.h statgen-mi/cargs.cc statgen-mi/cargs.h statgen-mi/config_interpreter.cc statgen-mi/config_interpreter.h statgen-mi/custom_handlers.cc statgen-mi/custom_handlers.h statgen-mi/genotype_draw_methods.h statgen-mi/main.cc statgen-mi/mi_calculator.cc statgen-mi/mi_calculator.h statgen-mi/parameters.cc statgen-mi/parameters.h statgen-mi/prob_vector.cc statgen-mi/prob_vector.h statgen-mi/program_description.h statgen-mi/submission_formatter.cc statgen-mi/submission_formatter.h statgen-mi/transpose_matrix.cc statgen-mi/transpose_matrix.h statgen-mi/utilities.h
+statgen_mi_out_SOURCES = statgen-mi/annotations.h statgen-mi/boost_random.cc statgen-mi/boost_random.h statgen-mi/cargs.cc statgen-mi/cargs.h statgen-mi/config_interpreter.cc statgen-mi/config_interpreter.h statgen-mi/custom_handlers.cc statgen-mi/custom_handlers.h statgen-mi/custom_handlers_emmaxkin.cc statgen-mi/custom_handlers_impute2.cc statgen-mi/custom_handlers_placeholder.cc statgen-mi/custom_handlers_plink.cc statgen-mi/custom_handlers_snptest.cc statgen-mi/custom_handlers_userdefined.cc statgen-mi/genotype_draw_methods.h statgen-mi/main.cc statgen-mi/mi_calculator.cc statgen-mi/mi_calculator.h statgen-mi/parameters.cc statgen-mi/parameters.h statgen-mi/prob_vector.cc statgen-mi/prob_vector.h statgen-mi/program_description.h statgen-mi/submission_formatter.cc statgen-mi/submission_formatter.h statgen-mi/transpose_matrix.cc statgen-mi/transpose_matrix.h statgen-mi/utilities.h
 statgen_mi_out_CXXFLAGS = $(BOOST_CPPFLAGS) -ggdb
 statgen_mi_out_LDADD = fileinterface/lib/libfileinterface.la
 EXTRA_DIST = examples
@@ -559,6 +565,24 @@ statgen-mi/statgen_mi_out-config_interpreter.$(OBJEXT):  \
 statgen-mi/statgen_mi_out-custom_handlers.$(OBJEXT):  \
 	statgen-mi/$(am__dirstamp) \
 	statgen-mi/$(DEPDIR)/$(am__dirstamp)
+statgen-mi/statgen_mi_out-custom_handlers_emmaxkin.$(OBJEXT):  \
+	statgen-mi/$(am__dirstamp) \
+	statgen-mi/$(DEPDIR)/$(am__dirstamp)
+statgen-mi/statgen_mi_out-custom_handlers_impute2.$(OBJEXT):  \
+	statgen-mi/$(am__dirstamp) \
+	statgen-mi/$(DEPDIR)/$(am__dirstamp)
+statgen-mi/statgen_mi_out-custom_handlers_placeholder.$(OBJEXT):  \
+	statgen-mi/$(am__dirstamp) \
+	statgen-mi/$(DEPDIR)/$(am__dirstamp)
+statgen-mi/statgen_mi_out-custom_handlers_plink.$(OBJEXT):  \
+	statgen-mi/$(am__dirstamp) \
+	statgen-mi/$(DEPDIR)/$(am__dirstamp)
+statgen-mi/statgen_mi_out-custom_handlers_snptest.$(OBJEXT):  \
+	statgen-mi/$(am__dirstamp) \
+	statgen-mi/$(DEPDIR)/$(am__dirstamp)
+statgen-mi/statgen_mi_out-custom_handlers_userdefined.$(OBJEXT):  \
+	statgen-mi/$(am__dirstamp) \
+	statgen-mi/$(DEPDIR)/$(am__dirstamp)
 statgen-mi/statgen_mi_out-main.$(OBJEXT): statgen-mi/$(am__dirstamp) \
 	statgen-mi/$(DEPDIR)/$(am__dirstamp)
 statgen-mi/statgen_mi_out-mi_calculator.$(OBJEXT):  \
@@ -592,6 +616,12 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@statgen-mi/$(DEPDIR)/statgen_mi_out-cargs.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@statgen-mi/$(DEPDIR)/statgen_mi_out-config_interpreter.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@statgen-mi/$(DEPDIR)/statgen_mi_out-custom_handlers.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@statgen-mi/$(DEPDIR)/statgen_mi_out-custom_handlers_emmaxkin.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@statgen-mi/$(DEPDIR)/statgen_mi_out-custom_handlers_impute2.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@statgen-mi/$(DEPDIR)/statgen_mi_out-custom_handlers_placeholder.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@statgen-mi/$(DEPDIR)/statgen_mi_out-custom_handlers_plink.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@statgen-mi/$(DEPDIR)/statgen_mi_out-custom_handlers_snptest.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@statgen-mi/$(DEPDIR)/statgen_mi_out-custom_handlers_userdefined.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@statgen-mi/$(DEPDIR)/statgen_mi_out-main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@statgen-mi/$(DEPDIR)/statgen_mi_out-mi_calculator.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@statgen-mi/$(DEPDIR)/statgen_mi_out-parameters.Po@am__quote@
@@ -678,6 +708,90 @@ statgen-mi/statgen_mi_out-custom_handlers.obj: statgen-mi/custom_handlers.cc
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='statgen-mi/custom_handlers.cc' object='statgen-mi/statgen_mi_out-custom_handlers.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(statgen_mi_out_CXXFLAGS) $(CXXFLAGS) -c -o statgen-mi/statgen_mi_out-custom_handlers.obj `if test -f 'statgen-mi/custom_handlers.cc'; then $(CYGPATH_W) 'statgen-mi/custom_handlers.cc'; else $(CYGPATH_W) '$(srcdir)/statgen-mi/custom_handlers.cc'; fi`
+
+statgen-mi/statgen_mi_out-custom_handlers_emmaxkin.o: statgen-mi/custom_handlers_emmaxkin.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(statgen_mi_out_CXXFLAGS) $(CXXFLAGS) -MT statgen-mi/statgen_mi_out-custom_handlers_emmaxkin.o -MD -MP -MF statgen-mi/$(DEPDIR)/statgen_mi_out-custom_handlers_emmaxkin.Tpo -c -o statgen-mi/statgen_mi_out-custom_handlers_emmaxkin.o `test -f 'statgen-mi/custom_handlers_emmaxkin.cc' || echo '$(srcdir)/'`statgen-mi/custom_handlers_emmaxkin.cc
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) statgen-mi/$(DEPDIR)/statgen_mi_out-custom_handlers_emmaxkin.Tpo statgen-mi/$(DEPDIR)/statgen_mi_out-custom_handlers_emmaxkin.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='statgen-mi/custom_handlers_emmaxkin.cc' object='statgen-mi/statgen_mi_out-custom_handlers_emmaxkin.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(statgen_mi_out_CXXFLAGS) $(CXXFLAGS) -c -o statgen-mi/statgen_mi_out-custom_handlers_emmaxkin.o `test -f 'statgen-mi/custom_handlers_emmaxkin.cc' || echo '$(srcdir)/'`statgen-mi/custom_handlers_emmaxkin.cc
+
+statgen-mi/statgen_mi_out-custom_handlers_emmaxkin.obj: statgen-mi/custom_handlers_emmaxkin.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(statgen_mi_out_CXXFLAGS) $(CXXFLAGS) -MT statgen-mi/statgen_mi_out-custom_handlers_emmaxkin.obj -MD -MP -MF statgen-mi/$(DEPDIR)/statgen_mi_out-custom_handlers_emmaxkin.Tpo -c -o statgen-mi/statgen_mi_out-custom_handlers_emmaxkin.obj `if test -f 'statgen-mi/custom_handlers_emmaxkin.cc'; then $(CYGPATH_W) 'statgen-mi/custom_handlers_emmaxkin.cc'; else $(CYGPATH_W) '$(srcdir)/statgen-mi/custom_handlers_emmaxkin.cc'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) statgen-mi/$(DEPDIR)/statgen_mi_out-custom_handlers_emmaxkin.Tpo statgen-mi/$(DEPDIR)/statgen_mi_out-custom_handlers_emmaxkin.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='statgen-mi/custom_handlers_emmaxkin.cc' object='statgen-mi/statgen_mi_out-custom_handlers_emmaxkin.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(statgen_mi_out_CXXFLAGS) $(CXXFLAGS) -c -o statgen-mi/statgen_mi_out-custom_handlers_emmaxkin.obj `if test -f 'statgen-mi/custom_handlers_emmaxkin.cc'; then $(CYGPATH_W) 'statgen-mi/custom_handlers_emmaxkin.cc'; else $(CYGPATH_W) '$(srcdir)/statgen-mi/custom_handlers_emmaxkin.cc'; fi`
+
+statgen-mi/statgen_mi_out-custom_handlers_impute2.o: statgen-mi/custom_handlers_impute2.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(statgen_mi_out_CXXFLAGS) $(CXXFLAGS) -MT statgen-mi/statgen_mi_out-custom_handlers_impute2.o -MD -MP -MF statgen-mi/$(DEPDIR)/statgen_mi_out-custom_handlers_impute2.Tpo -c -o statgen-mi/statgen_mi_out-custom_handlers_impute2.o `test -f 'statgen-mi/custom_handlers_impute2.cc' || echo '$(srcdir)/'`statgen-mi/custom_handlers_impute2.cc
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) statgen-mi/$(DEPDIR)/statgen_mi_out-custom_handlers_impute2.Tpo statgen-mi/$(DEPDIR)/statgen_mi_out-custom_handlers_impute2.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='statgen-mi/custom_handlers_impute2.cc' object='statgen-mi/statgen_mi_out-custom_handlers_impute2.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(statgen_mi_out_CXXFLAGS) $(CXXFLAGS) -c -o statgen-mi/statgen_mi_out-custom_handlers_impute2.o `test -f 'statgen-mi/custom_handlers_impute2.cc' || echo '$(srcdir)/'`statgen-mi/custom_handlers_impute2.cc
+
+statgen-mi/statgen_mi_out-custom_handlers_impute2.obj: statgen-mi/custom_handlers_impute2.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(statgen_mi_out_CXXFLAGS) $(CXXFLAGS) -MT statgen-mi/statgen_mi_out-custom_handlers_impute2.obj -MD -MP -MF statgen-mi/$(DEPDIR)/statgen_mi_out-custom_handlers_impute2.Tpo -c -o statgen-mi/statgen_mi_out-custom_handlers_impute2.obj `if test -f 'statgen-mi/custom_handlers_impute2.cc'; then $(CYGPATH_W) 'statgen-mi/custom_handlers_impute2.cc'; else $(CYGPATH_W) '$(srcdir)/statgen-mi/custom_handlers_impute2.cc'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) statgen-mi/$(DEPDIR)/statgen_mi_out-custom_handlers_impute2.Tpo statgen-mi/$(DEPDIR)/statgen_mi_out-custom_handlers_impute2.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='statgen-mi/custom_handlers_impute2.cc' object='statgen-mi/statgen_mi_out-custom_handlers_impute2.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(statgen_mi_out_CXXFLAGS) $(CXXFLAGS) -c -o statgen-mi/statgen_mi_out-custom_handlers_impute2.obj `if test -f 'statgen-mi/custom_handlers_impute2.cc'; then $(CYGPATH_W) 'statgen-mi/custom_handlers_impute2.cc'; else $(CYGPATH_W) '$(srcdir)/statgen-mi/custom_handlers_impute2.cc'; fi`
+
+statgen-mi/statgen_mi_out-custom_handlers_placeholder.o: statgen-mi/custom_handlers_placeholder.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(statgen_mi_out_CXXFLAGS) $(CXXFLAGS) -MT statgen-mi/statgen_mi_out-custom_handlers_placeholder.o -MD -MP -MF statgen-mi/$(DEPDIR)/statgen_mi_out-custom_handlers_placeholder.Tpo -c -o statgen-mi/statgen_mi_out-custom_handlers_placeholder.o `test -f 'statgen-mi/custom_handlers_placeholder.cc' || echo '$(srcdir)/'`statgen-mi/custom_handlers_placeholder.cc
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) statgen-mi/$(DEPDIR)/statgen_mi_out-custom_handlers_placeholder.Tpo statgen-mi/$(DEPDIR)/statgen_mi_out-custom_handlers_placeholder.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='statgen-mi/custom_handlers_placeholder.cc' object='statgen-mi/statgen_mi_out-custom_handlers_placeholder.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(statgen_mi_out_CXXFLAGS) $(CXXFLAGS) -c -o statgen-mi/statgen_mi_out-custom_handlers_placeholder.o `test -f 'statgen-mi/custom_handlers_placeholder.cc' || echo '$(srcdir)/'`statgen-mi/custom_handlers_placeholder.cc
+
+statgen-mi/statgen_mi_out-custom_handlers_placeholder.obj: statgen-mi/custom_handlers_placeholder.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(statgen_mi_out_CXXFLAGS) $(CXXFLAGS) -MT statgen-mi/statgen_mi_out-custom_handlers_placeholder.obj -MD -MP -MF statgen-mi/$(DEPDIR)/statgen_mi_out-custom_handlers_placeholder.Tpo -c -o statgen-mi/statgen_mi_out-custom_handlers_placeholder.obj `if test -f 'statgen-mi/custom_handlers_placeholder.cc'; then $(CYGPATH_W) 'statgen-mi/custom_handlers_placeholder.cc'; else $(CYGPATH_W) '$(srcdir)/statgen-mi/custom_handlers_placeholder.cc'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) statgen-mi/$(DEPDIR)/statgen_mi_out-custom_handlers_placeholder.Tpo statgen-mi/$(DEPDIR)/statgen_mi_out-custom_handlers_placeholder.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='statgen-mi/custom_handlers_placeholder.cc' object='statgen-mi/statgen_mi_out-custom_handlers_placeholder.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(statgen_mi_out_CXXFLAGS) $(CXXFLAGS) -c -o statgen-mi/statgen_mi_out-custom_handlers_placeholder.obj `if test -f 'statgen-mi/custom_handlers_placeholder.cc'; then $(CYGPATH_W) 'statgen-mi/custom_handlers_placeholder.cc'; else $(CYGPATH_W) '$(srcdir)/statgen-mi/custom_handlers_placeholder.cc'; fi`
+
+statgen-mi/statgen_mi_out-custom_handlers_plink.o: statgen-mi/custom_handlers_plink.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(statgen_mi_out_CXXFLAGS) $(CXXFLAGS) -MT statgen-mi/statgen_mi_out-custom_handlers_plink.o -MD -MP -MF statgen-mi/$(DEPDIR)/statgen_mi_out-custom_handlers_plink.Tpo -c -o statgen-mi/statgen_mi_out-custom_handlers_plink.o `test -f 'statgen-mi/custom_handlers_plink.cc' || echo '$(srcdir)/'`statgen-mi/custom_handlers_plink.cc
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) statgen-mi/$(DEPDIR)/statgen_mi_out-custom_handlers_plink.Tpo statgen-mi/$(DEPDIR)/statgen_mi_out-custom_handlers_plink.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='statgen-mi/custom_handlers_plink.cc' object='statgen-mi/statgen_mi_out-custom_handlers_plink.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(statgen_mi_out_CXXFLAGS) $(CXXFLAGS) -c -o statgen-mi/statgen_mi_out-custom_handlers_plink.o `test -f 'statgen-mi/custom_handlers_plink.cc' || echo '$(srcdir)/'`statgen-mi/custom_handlers_plink.cc
+
+statgen-mi/statgen_mi_out-custom_handlers_plink.obj: statgen-mi/custom_handlers_plink.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(statgen_mi_out_CXXFLAGS) $(CXXFLAGS) -MT statgen-mi/statgen_mi_out-custom_handlers_plink.obj -MD -MP -MF statgen-mi/$(DEPDIR)/statgen_mi_out-custom_handlers_plink.Tpo -c -o statgen-mi/statgen_mi_out-custom_handlers_plink.obj `if test -f 'statgen-mi/custom_handlers_plink.cc'; then $(CYGPATH_W) 'statgen-mi/custom_handlers_plink.cc'; else $(CYGPATH_W) '$(srcdir)/statgen-mi/custom_handlers_plink.cc'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) statgen-mi/$(DEPDIR)/statgen_mi_out-custom_handlers_plink.Tpo statgen-mi/$(DEPDIR)/statgen_mi_out-custom_handlers_plink.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='statgen-mi/custom_handlers_plink.cc' object='statgen-mi/statgen_mi_out-custom_handlers_plink.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(statgen_mi_out_CXXFLAGS) $(CXXFLAGS) -c -o statgen-mi/statgen_mi_out-custom_handlers_plink.obj `if test -f 'statgen-mi/custom_handlers_plink.cc'; then $(CYGPATH_W) 'statgen-mi/custom_handlers_plink.cc'; else $(CYGPATH_W) '$(srcdir)/statgen-mi/custom_handlers_plink.cc'; fi`
+
+statgen-mi/statgen_mi_out-custom_handlers_snptest.o: statgen-mi/custom_handlers_snptest.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(statgen_mi_out_CXXFLAGS) $(CXXFLAGS) -MT statgen-mi/statgen_mi_out-custom_handlers_snptest.o -MD -MP -MF statgen-mi/$(DEPDIR)/statgen_mi_out-custom_handlers_snptest.Tpo -c -o statgen-mi/statgen_mi_out-custom_handlers_snptest.o `test -f 'statgen-mi/custom_handlers_snptest.cc' || echo '$(srcdir)/'`statgen-mi/custom_handlers_snptest.cc
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) statgen-mi/$(DEPDIR)/statgen_mi_out-custom_handlers_snptest.Tpo statgen-mi/$(DEPDIR)/statgen_mi_out-custom_handlers_snptest.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='statgen-mi/custom_handlers_snptest.cc' object='statgen-mi/statgen_mi_out-custom_handlers_snptest.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(statgen_mi_out_CXXFLAGS) $(CXXFLAGS) -c -o statgen-mi/statgen_mi_out-custom_handlers_snptest.o `test -f 'statgen-mi/custom_handlers_snptest.cc' || echo '$(srcdir)/'`statgen-mi/custom_handlers_snptest.cc
+
+statgen-mi/statgen_mi_out-custom_handlers_snptest.obj: statgen-mi/custom_handlers_snptest.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(statgen_mi_out_CXXFLAGS) $(CXXFLAGS) -MT statgen-mi/statgen_mi_out-custom_handlers_snptest.obj -MD -MP -MF statgen-mi/$(DEPDIR)/statgen_mi_out-custom_handlers_snptest.Tpo -c -o statgen-mi/statgen_mi_out-custom_handlers_snptest.obj `if test -f 'statgen-mi/custom_handlers_snptest.cc'; then $(CYGPATH_W) 'statgen-mi/custom_handlers_snptest.cc'; else $(CYGPATH_W) '$(srcdir)/statgen-mi/custom_handlers_snptest.cc'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) statgen-mi/$(DEPDIR)/statgen_mi_out-custom_handlers_snptest.Tpo statgen-mi/$(DEPDIR)/statgen_mi_out-custom_handlers_snptest.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='statgen-mi/custom_handlers_snptest.cc' object='statgen-mi/statgen_mi_out-custom_handlers_snptest.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(statgen_mi_out_CXXFLAGS) $(CXXFLAGS) -c -o statgen-mi/statgen_mi_out-custom_handlers_snptest.obj `if test -f 'statgen-mi/custom_handlers_snptest.cc'; then $(CYGPATH_W) 'statgen-mi/custom_handlers_snptest.cc'; else $(CYGPATH_W) '$(srcdir)/statgen-mi/custom_handlers_snptest.cc'; fi`
+
+statgen-mi/statgen_mi_out-custom_handlers_userdefined.o: statgen-mi/custom_handlers_userdefined.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(statgen_mi_out_CXXFLAGS) $(CXXFLAGS) -MT statgen-mi/statgen_mi_out-custom_handlers_userdefined.o -MD -MP -MF statgen-mi/$(DEPDIR)/statgen_mi_out-custom_handlers_userdefined.Tpo -c -o statgen-mi/statgen_mi_out-custom_handlers_userdefined.o `test -f 'statgen-mi/custom_handlers_userdefined.cc' || echo '$(srcdir)/'`statgen-mi/custom_handlers_userdefined.cc
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) statgen-mi/$(DEPDIR)/statgen_mi_out-custom_handlers_userdefined.Tpo statgen-mi/$(DEPDIR)/statgen_mi_out-custom_handlers_userdefined.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='statgen-mi/custom_handlers_userdefined.cc' object='statgen-mi/statgen_mi_out-custom_handlers_userdefined.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(statgen_mi_out_CXXFLAGS) $(CXXFLAGS) -c -o statgen-mi/statgen_mi_out-custom_handlers_userdefined.o `test -f 'statgen-mi/custom_handlers_userdefined.cc' || echo '$(srcdir)/'`statgen-mi/custom_handlers_userdefined.cc
+
+statgen-mi/statgen_mi_out-custom_handlers_userdefined.obj: statgen-mi/custom_handlers_userdefined.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(statgen_mi_out_CXXFLAGS) $(CXXFLAGS) -MT statgen-mi/statgen_mi_out-custom_handlers_userdefined.obj -MD -MP -MF statgen-mi/$(DEPDIR)/statgen_mi_out-custom_handlers_userdefined.Tpo -c -o statgen-mi/statgen_mi_out-custom_handlers_userdefined.obj `if test -f 'statgen-mi/custom_handlers_userdefined.cc'; then $(CYGPATH_W) 'statgen-mi/custom_handlers_userdefined.cc'; else $(CYGPATH_W) '$(srcdir)/statgen-mi/custom_handlers_userdefined.cc'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) statgen-mi/$(DEPDIR)/statgen_mi_out-custom_handlers_userdefined.Tpo statgen-mi/$(DEPDIR)/statgen_mi_out-custom_handlers_userdefined.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='statgen-mi/custom_handlers_userdefined.cc' object='statgen-mi/statgen_mi_out-custom_handlers_userdefined.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(statgen_mi_out_CXXFLAGS) $(CXXFLAGS) -c -o statgen-mi/statgen_mi_out-custom_handlers_userdefined.obj `if test -f 'statgen-mi/custom_handlers_userdefined.cc'; then $(CYGPATH_W) 'statgen-mi/custom_handlers_userdefined.cc'; else $(CYGPATH_W) '$(srcdir)/statgen-mi/custom_handlers_userdefined.cc'; fi`
 
 statgen-mi/statgen_mi_out-main.o: statgen-mi/main.cc
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(statgen_mi_out_CXXFLAGS) $(CXXFLAGS) -MT statgen-mi/statgen_mi_out-main.o -MD -MP -MF statgen-mi/$(DEPDIR)/statgen_mi_out-main.Tpo -c -o statgen-mi/statgen_mi_out-main.o `test -f 'statgen-mi/main.cc' || echo '$(srcdir)/'`statgen-mi/main.cc

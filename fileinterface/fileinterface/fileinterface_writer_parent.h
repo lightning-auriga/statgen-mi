@@ -30,7 +30,7 @@ namespace MI {
   public:
     fileinterface_writer()
       : _good(true), _bad(false), _fail(false) {}
-    ~fileinterface_writer() throw() {}
+    virtual ~fileinterface_writer() throw() {}
 
     void open(const std::string &filename) {open(filename.c_str());}
     virtual void open(const char *filename) = 0;
