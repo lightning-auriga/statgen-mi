@@ -30,23 +30,23 @@
 namespace MI {
   inline fileinterface_reader *reconcile_reader(const std::string &filename) {
     MI::fileinterface_reader *ptr = 0;
-    /*if (filename.find(".bed.gz") == filename.size() - 7) {
+    /*if (filename.rfind(".bed.gz") == filename.size() - 7) {
       ptr = new MI::plinkbed_reader("gzip");
       ptr->open(filename);
-    } else if (filename.find(".bed.bz2") == filename.size() - 8) {
+    } else if (filename.rfind(".bed.bz2") == filename.size() - 8) {
       ptr = new MI::plinkbed_reader("bzip2");
       ptr->open(filename);
-      } else if (filename.find(".bed") == filename.size() - 4) {
+      } else if (filename.rfind(".bed") == filename.size() - 4) {
       ptr = new MI::plinkbed_reader("none");
       ptr->open(filename);
-      } else */if (filename.find(".gz") == filename.size() - 3) {
+      } else */if (filename.rfind(".gz") == filename.size() - 3) {
 #ifdef FILEINTERFACE_HAVE_LIBZ
       ptr = new MI::fileinterface_reader_gzip;
       ptr->open(filename);
 #else
       throw std::domain_error("zlib support not compiled into software, cannot open \"" + filename + "\"");
 #endif //FILEINTERFACE_HAVE_LIBZ
-    } else if (filename.find(".bz2") == filename.size() - 4) {
+    } else if (filename.rfind(".bz2") == filename.size() - 4) {
 #ifdef FILEINTERFACE_HAVE_LIBBZ2
       ptr = new MI::fileinterface_reader_bzip2;
       ptr->open(filename);
@@ -62,16 +62,16 @@ namespace MI {
   
   inline fileinterface_writer *reconcile_writer(const std::string &filename) {
     MI::fileinterface_writer *ptr = 0;
-    if (filename.find(".bed.gz") == filename.size() - 7) {
+    if (filename.rfind(".bed.gz") == filename.size() - 7) {
       ptr = new MI::plinkbed_writer("gzip");
       ptr->open(filename);
-    } else if (filename.find("bed.bz2") == filename.size() - 8) {
+    } else if (filename.rfind("bed.bz2") == filename.size() - 8) {
       ptr = new MI::plinkbed_writer("bzip2");
       ptr->open(filename);
-    } else if (filename.find(".bed") == filename.size() - 4) {
+    } else if (filename.rfind(".bed") == filename.size() - 4) {
       ptr = new MI::plinkbed_writer("none");
       ptr->open(filename);
-    } else if (filename.find(".gz") == filename.size() - 3) {
+    } else if (filename.rfind(".gz") == filename.size() - 3) {
 #ifdef FILEINTERFACE_HAVE_LIBZ
       ptr = new MI::fileinterface_writer_gzip;
       ptr->open(filename);
