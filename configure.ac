@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT(statgen-mi, 0.1, cdp2130@cumc.columbia.edu)
+AC_INIT(statgen-mi, 0.1.0, lightning.auriga@gmail.com)
 AC_CONFIG_AUX_DIR([.])
 AM_INIT_AUTOMAKE([-Wall -Werror subdir-objects])
 AM_SILENT_RULES([yes])
@@ -32,12 +32,15 @@ AC_PROG_CXX_C_O
 #	    [AX_PTHREAD]) #([CFLAGS=$CFLAGS $PTHREAD_CFLAGS])
 #fi
 
-#AX_CXX_COMPILE_STDCXX_11([ext], [optional])
+AX_CXX_COMPILE_STDCXX_17([ext], [mandatory])
 
 # Checks for libraries.
+AX_BOOST_BASE([1.63.0])
+AX_BOOST_FILESYSTEM
+AX_BOOST_PROGRAM_OPTIONS
+AX_BOOST_IOSTREAMS
 AX_CHECK_ZLIB
 AX_CHECK_BZIP2
-AX_BOOST_BASE([1.46.1])
 AC_CHECK_LIB([m],[cos])
 
 # Checks for header files.
@@ -48,7 +51,7 @@ AC_CHECK_LIB([m],[cos])
 
 AC_CONFIG_FILES([
  Makefile
- statgen-mi-0.1.pc
+ statgen-mi-0.1.0.pc
 ])
-AC_CONFIG_SUBDIRS([fileinterface])
+
 AC_OUTPUT
