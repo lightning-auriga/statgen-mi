@@ -2,11 +2,25 @@ manifest: "config/manifest.tsv"
 tools:
   plink2:
     executable: "plink2"
-    vcf_prefix: ""
-    vcf_suffix: ""
-    regression_type: "linear|logistic"
-    vif: 1000
+    maxthreads: 2
+    maxmem: 8000
+    mi_draws: 5
 imputed_datasets:
-  - type: impute2
+  dataset1:
+    type: impute2
     gen-filename: "Name of IMPUTE2 gen file to be processed"
     sample-filename: "Name of IMPUTE2 sample file to be processed"
+  dataset2:
+    type: minimac4
+    dose-filename: ""
+    sample-filename: ""
+regression_models:
+  - phenotype: "phenoname"
+    covariates:
+      - "covar1"
+      - "covar2"
+      - "covar3"
+    model: "linear|logistic"
+    vif: 1000
+queue:
+  large_partition: "big"
