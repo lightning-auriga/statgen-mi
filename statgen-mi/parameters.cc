@@ -1,5 +1,5 @@
 /*
-  Copyright 2015 Lightning Auriga
+  Copyright 2022 Lightning Auriga
 
   This file is part of statgen-mi.
   
@@ -116,7 +116,7 @@ void MI::parameters::set_flag(const std::string &flag_long,
 }
 void MI::parameters::print_license(std::ostream &out) {
   out << STATGEN_MI_PACKAGE_STRING;
-  out << "\nCopyright © 2015 Lightning Auriga \n\
+  out << "\nCopyright © 2022 Lightning Auriga \n\
 License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>\n\
 This is free software: you are free to change and redistribute it.\n\
 There is NO WARRANTY, to the extent permitted by law." << std::endl;

@@ -1,5 +1,5 @@
 /*
-  Copyright 2015 Lightning Auriga
+  Copyright 2022 Lightning Auriga
 
   This file is part of statgen-mi.
 
