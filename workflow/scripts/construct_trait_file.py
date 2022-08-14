@@ -1,3 +1,6 @@
+import pandas as pd
+
+
 def run_construct_trait_file(snakemake):
     """
     build a plink-style phenotype output file
@@ -9,11 +12,13 @@ def run_construct_trait_file(snakemake):
     output_filename = snakemake.output[0]
     phenotype = snakemake.params["phenotype"]
     covariates = snakemake.params["covariates"]
-
-    # for now, just touch output
-    with open(output_filename, "w") as f:
-        if input_filename or phenotype or covariates or f:
-            pass
+    data = pd.read_table(input_filename, sep="\t")
+    if phenotype not in data.columns:
+        raise ValueError("requested phenotype not present in model file")
+    if covariates is not None:
+        if ~set(covariates).issubset(data.columns):
+            raise ValueError("requested covariates not present in model file")
+    data.to_csv(output_filename, sep="\t")
 
 
 try:
