@@ -1,2 +1,2 @@
-analysis	filename
-testanalysis	datasets/chr22.dose.vcf.gz
+analysis	imputed_dataset	tool	regression_model
+testanalysis	dataset2	plink2	testmodel

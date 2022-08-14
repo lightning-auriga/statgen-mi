@@ -5,11 +5,11 @@ rule multiple_imputation_plink2:
     """
     input:
         lambda wildcards: expand(
-            "results/{{analysis}}/{{tool}}/mi_runs/{runnum}/results.{{pheno_name}}.glm.{suffix}",
+            "results/{{analysis}}/{{dataset}}/{{tool}}/mi_runs/{runnum}/results.{{pheno_name}}.glm.{suffix}",
             runnum=[i + 1 for i in range(config["tools"][wildcards.tool]["mi_draws"])],
         ),
     output:
-        "results/{analysis}/{tool}/output.tsv",
+        "results/{analysis}/{dataset}/{tool}/output.tsv",
     params:
         tool=lambda wildcards: wildcards.tool,
         model=lambda wildcards: wildcards.suffix,
@@ -27,15 +27,17 @@ rule run_plink2_linear_regression:
     deploy plink2 linear regression for drawn data
     """
     input:
-        vcf="results/{analysis}/{tool}/mi_runs/{runnum}/data.vcf.gz",
+        vcf="results/{analysis}/{dataset}/{tool}/mi_runs/{runnum}/data.vcf.gz",
     output:
-        filename="results/{analysis}/{tool}/mi_runs/{runnum}/results.{pheno_name}.glm.linear",
-        log=temp("results/{analysis}/{tool}/mi_runs/{runnum}/results.{pheno_name}.log"),
+        filename="results/{analysis}/{dataset}/{tool}/mi_runs/{runnum}/results.{pheno_name}.glm.linear",
+        log=temp(
+            "results/{analysis}/{dataset}/{tool}/mi_runs/{runnum}/results.{pheno_name}.log"
+        ),
     conda:
         "../envs/plink2.yaml"
     params:
         plink2_memlimit=config["plink2"]["memlimit"],
-        plink2_outprefix="results/{analysis}/{tool}/mi_runs/{runnum}/results",
+        plink2_outprefix="results/{analysis}/{dataset}/{tool}/mi_runs/{runnum}/results",
         plink2_cols="chrom,pos,ref,alt,a1freq,a1count,test,nobs,orbeta,se,p",
         plink2_regression_modifiers="",
     threads: config["plink2"]["maxthreads"]
@@ -52,10 +54,12 @@ rule run_plink2_linear_regression:
 
 use rule run_plink2_linear_regression as run_plink2_logistic_regression with:
     output:
-        filename="results/{analysis}/{tool}/mi_runs/{runnum}/results.{pheno_name}.glm.logistic.hybrid",
-        log=temp("results/{analysis}/{tool}/mi_runs/{runnum}/results.{pheno_name}.log"),
+        filename="results/{analysis}/{dataset}/{tool}/mi_runs/{runnum}/results.{pheno_name}.glm.logistic.hybrid",
+        log=temp(
+            "results/{analysis}/{dataset}/{tool}/mi_runs/{runnum}/results.{pheno_name}.log"
+        ),
     params:
         memlimit=config["tools"]["plink"]["memlimit"] / 4,
-        plink2_outprefix="results/{analysis_name}/{analysis}/{tool}/{prefix}",
+        plink2_outprefix="results/{analysis}/{dataset}/{tool}/mi_runs/{runnum}/results",
         plink2_cols="chrom,pos,ref,alt,a1freq,a1freqcc,a1count,a1countcc,test,nobs,orbeta,se,p",
         plink2_regression_modifiers="--1",

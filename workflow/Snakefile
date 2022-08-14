@@ -1,11 +1,19 @@
 import pandas as pd
+from snakemake.utils import validate
+
+
+configfile: "config/config.yaml"
+
+
+validate(config, schema="../schema/config.schema.yaml")
 
 manifest = pd.read_table(config["manifest"], sep="\t").set_index("analysis", drop=False)
 
-TARGETS = expand(
-    "results/{analysis}/{tool}/output.tsv",
-    analysis=manifest.index,
-    tool=manifest["tool"],
+TARGETS = "results/{}/{}/{}/{}/output.tsv".format(
+    manifest["analysis"],
+    manifest["dataset"],
+    manifest["tool"],
+    manifest["regression_model"],
 )
 
 
