@@ -73,6 +73,7 @@ rule all:
         TARGETS,
 
 
+include: "rules/common.smk"
 include: "rules/minimac4.smk"
 include: "rules/phenotypes.smk"
 include: "rules/plink2.smk"
