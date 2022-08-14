@@ -17,8 +17,8 @@
   along with statgen-mi.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef __MI_TRANSPOSE_MATRIX_H__
-#define __MI_TRANSPOSE_MATRIX_H__
+#ifndef STATGEN_MI_TRANSPOSE_MATRIX_H__
+#define STATGEN_MI_TRANSPOSE_MATRIX_H__
 
 #include <vector>
 #include <string>
@@ -87,4 +87,4 @@ namespace MI {
   };
 }
 
-#endif //__MI_TRANSPOSE_MATRIX_H__
+#endif //STATGEN_MI_TRANSPOSE_MATRIX_H__

@@ -17,8 +17,8 @@
   along with statgen-mi.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef __MI_CONFIG_INTERPRETER_H__
-#define __MI_CONFIG_INTERPRETER_H__
+#ifndef STATGEN_MI_CONFIG_INTERPRETER_H__
+#define STATGEN_MI_CONFIG_INTERPRETER_H__
 
 #include "statgen-mi/utilities.h"
 #include "statgen-mi/cargs.h"
@@ -50,4 +50,4 @@ namespace MI {
   };
 }
 
-#endif //__MI_CONFIG_INTERPRETER_H__
+#endif //STATGEN_MI_CONFIG_INTERPRETER_H__

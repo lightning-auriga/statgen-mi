@@ -17,8 +17,8 @@
   along with statgen-mi.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef __MI_DESCRIPTIONS_H__
-#define __MI_DESCRIPTIONS_H__
+#ifndef STATGEN_MI_DESCRIPTIONS_H__
+#define STATGEN_MI_DESCRIPTIONS_H__
 
 #include <string>
 #include <stdexcept>
@@ -71,4 +71,4 @@ namespace MI {
   };
 }
 
-#endif //__MI_DESCRIPTIONS_H__
+#endif //STATGEN_MI_DESCRIPTIONS_H__

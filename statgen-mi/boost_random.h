@@ -17,8 +17,8 @@
   along with statgen-mi.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef __MI_BOOST_RANDOM_H__
-#define __MI_BOOST_RANDOM_H__
+#ifndef STATGEN_MI_BOOST_RANDOM_H__
+#define STATGEN_MI_BOOST_RANDOM_H__
 /*!
  * \file boost_random.h
  *
@@ -137,4 +137,4 @@ namespace MI {
   private:
   };
 }
-#endif // __MI_BOOST_RANDOM_H__
+#endif // STATGEN_MI_BOOST_RANDOM_H__

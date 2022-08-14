@@ -22,8 +22,8 @@
  * \brief contains argument parsing class declarations
  */
 
-#ifndef __MI_CARGS_H__
-#define __MI_CARGS_H__
+#ifndef STATGEN_MI_CARGS_H__
+#define STATGEN_MI_CARGS_H__
 
 #include <string>
 #include <vector>
@@ -125,4 +125,4 @@ namespace MI {
     //program_configuration _configuration;
   };
 }
-#endif /* __MI_CARGS_H__ */
+#endif /* STATGEN_MI_CARGS_H__ */
