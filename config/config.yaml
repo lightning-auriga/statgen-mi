@@ -8,19 +8,18 @@ tools:
 imputed_datasets:
   dataset1:
     type: impute2
-    gen-filename: "Name of IMPUTE2 gen file to be processed"
-    sample-filename: "Name of IMPUTE2 sample file to be processed"
+    filename: "Name of IMPUTE2 gen file to be processed"
   dataset2:
     type: minimac4
-    dose-filename: ""
-    sample-filename: ""
+    filename: "examples/chr22.dose.vcf.gz"
 regression_models:
-  - phenotype: "phenoname"
+  model1:
+    phenotype: "phenoname"
     covariates:
       - "covar1"
       - "covar2"
       - "covar3"
-    model: "linear|logistic"
+    model: "linear"
     vif: 1000
 queue:
   large_partition: "big"

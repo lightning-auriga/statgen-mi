@@ -1,0 +1,73 @@
+$schema: "http://json-schema.org/draft-07/schema#"
+description: "statgen-mi/snakemake configuration file"
+
+type: object
+properties:
+  manifest:
+    type: string
+  tools:
+    type: object
+    properties:
+      plink2:
+        type: object
+        properties:
+          executable:
+            type: string
+          maxthreads:
+            type: integer
+          maxmem:
+            type: integer
+          mi_draws:
+            type: integer
+        required:
+          - executable
+          - maxthreads
+          - maxmem
+          - mi_draws
+        additionalProperties: no
+  imputed_datasets:
+    type: object
+    patternProperties:
+      "^.*$":
+        type: object
+        properties:
+          type:
+            type: string
+          filename:
+            type: string
+        required:
+          - type
+          - filename
+        additionalProperties: no
+  regression_models:
+    type: object
+    patternProperties:
+      "^.*$":
+        type: object
+        properties:
+          phenotype:
+            type: string
+          covariates:
+            type: array
+            items:
+              type: string
+          model:
+            type: string
+          vif:
+            type: integer
+        required:
+          - phenotype
+          - model
+        additionalProperties: no
+  queue:
+    type: object
+    properties:
+      large_partition:
+        type: string
+    required:
+      - large_partition
+required:
+  - tools
+  - imputed_datasets
+  - regression_models
+additionalProperties: no
