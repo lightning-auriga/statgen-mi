@@ -41,6 +41,12 @@ rule run_plink2_linear_regression:
         plink2_outprefix="results/{analysis}/{dataset}/{tool}/{model}/mi_runs/{runnum}/results",
         plink2_cols="chrom,pos,ref,alt,a1freq,a1count,test,nobs,orbeta,se,p",
         plink2_regression_modifiers="",
+        phenos=lambda wildcards: " --pheno-name {} ".format(wildcards.pheno_name),
+        covars=lambda wildcards: " --covar-name {} ".format(
+            " ".join(config["regression_models"][wildcards.model]["covariates"])
+        )
+        if "covariates" in config["regression_models"][wildcards.model]
+        else "",
     threads: config["tools"]["plink2"]["maxthreads"]
     resources:
         time="1:00:00",
@@ -50,6 +56,7 @@ rule run_plink2_linear_regression:
         "plink2 --memory {params.plink2_memlimit} --threads {threads} "
         "--vcf {input.vcf} "
         "--glm hide-covar cols={params.plink2_cols} {params.plink2_regression_modifiers} "
+        "--pheno {input.pheno} {params.phenos} {params.covars} "
         "--out {params.plink2_outprefix}"
 
 
@@ -64,3 +71,9 @@ use rule run_plink2_linear_regression as run_plink2_logistic_regression with:
         plink2_outprefix="results/{analysis}/{dataset}/{tool}/{model}/mi_runs/{runnum}/results",
         plink2_cols="chrom,pos,ref,alt,a1freq,a1freqcc,a1count,a1countcc,test,nobs,orbeta,se,p",
         plink2_regression_modifiers="--1",
+        phenos=lambda wildcards: " --pheno-name {} ".format(wildcards.pheno_name),
+        covars=lambda wildcards: " --covar-name {} ".format(
+            " ".join(config["regression_models"][wildcards.model]["covariates"])
+        )
+        if covariates in config["regression_models"][wildcards.model]
+        else "",
