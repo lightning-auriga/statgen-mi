@@ -31,7 +31,7 @@
 #include <boost/algorithm/string/find.hpp>
 
 
-namespace MI {
+namespace statgen_mi {
   template <class value_type>
     std::string to_string(const value_type &obj) {
     std::ostringstream o;

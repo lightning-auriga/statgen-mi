@@ -19,7 +19,7 @@
 
 #include "statgen-mi/parameters.h"
 
-bool MI::parameters::has_parameter(const std::string &parameter_name) throw() {
+bool statgen_mi::parameters::has_parameter(const std::string &parameter_name) throw() {
 #ifdef HAVE_PTHREAD
   acquire_parameter_lock();
 #endif //HAVE_PTHREAD
@@ -29,7 +29,7 @@ bool MI::parameters::has_parameter(const std::string &parameter_name) throw() {
 #endif //HAVE_PTHREAD
   return return_value;
 }
-std::string MI::parameters::get_parameter(const std::string &parameter_name) 
+std::string statgen_mi::parameters::get_parameter(const std::string &parameter_name) 
   throw(std::domain_error) {
 #ifdef HAVE_PTHREAD
   //DO NOT CALL has_parameter WHEN LOCKED!!!
@@ -45,7 +45,7 @@ std::string MI::parameters::get_parameter(const std::string &parameter_name)
 #endif //HAVE_PTHREAD
   return return_value;
 }
-void MI::parameters::set_parameter(const std::string &parameter_long,
+void statgen_mi::parameters::set_parameter(const std::string &parameter_long,
 			       const std::string &parameter_short,
 			       const std::string &parameter_description,
 			       const std::string &parameter_value)
@@ -67,7 +67,7 @@ void MI::parameters::set_parameter(const std::string &parameter_long,
   release_parameter_lock();
 #endif //HAVE_PTHREAD
 }
-bool MI::parameters::has_flag(const std::string &flag_name) throw() {
+bool statgen_mi::parameters::has_flag(const std::string &flag_name) throw() {
 #ifdef HAVE_PTHREAD
   acquire_parameter_lock();
 #endif //HAVE_PTHREAD
@@ -77,7 +77,7 @@ bool MI::parameters::has_flag(const std::string &flag_name) throw() {
 #endif //HAVE_PTHREAD
   return return_value;
 }
-bool MI::parameters::get_flag(const std::string &flag_name) throw(std::domain_error) {
+bool statgen_mi::parameters::get_flag(const std::string &flag_name) throw(std::domain_error) {
 #ifdef HAVE_PTHREAD
   //DO NOT CALL has_flag WHEN LOCKED!!!
   acquire_parameter_lock();
@@ -92,7 +92,7 @@ bool MI::parameters::get_flag(const std::string &flag_name) throw(std::domain_er
 #endif //HAVE_PTHREAD
   return return_value;
 }
-void MI::parameters::set_flag(const std::string &flag_long,
+void statgen_mi::parameters::set_flag(const std::string &flag_long,
 			      const std::string &flag_short,
 			      const std::string &flag_description,
 			      bool               flag_value) 
@@ -114,14 +114,14 @@ void MI::parameters::set_flag(const std::string &flag_long,
   release_parameter_lock();
 #endif //HAVE_PTHREAD
 }
-void MI::parameters::print_license(std::ostream &out) {
+void statgen_mi::parameters::print_license(std::ostream &out) {
   out << STATGEN_MI_PACKAGE_STRING;
   out << "\nCopyright © 2022 Lightning Auriga \n\
 License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>\n\
 This is free software: you are free to change and redistribute it.\n\
 There is NO WARRANTY, to the extent permitted by law." << std::endl;
 }
-void MI::parameters::print_help(std::ostream &out) {
+void statgen_mi::parameters::print_help(std::ostream &out) {
   std::string longflag_header = "Full Flag", shortflag_header = "Abbreviation", 
     description_header = "Description", value_header = "Current Value";
   unsigned longflag_max_width = longflag_header.size(), 
@@ -241,7 +241,7 @@ void MI::parameters::print_help(std::ostream &out) {
   }
 }
 #ifdef HAVE_PTHREAD
-pthread_mutex MI::parameters::_mutex;
+pthread_mutex statgen_mi::parameters::_mutex;
 #endif //HAVE_PTHREAD
-std::map<std::string, MI::parameter_annotation<std::string> > MI::parameters::_parameters;
-std::map<std::string, MI::parameter_annotation<bool> > MI::parameters::_flags;
+std::map<std::string, statgen_mi::parameter_annotation<std::string> > statgen_mi::parameters::_parameters;
+std::map<std::string, statgen_mi::parameter_annotation<bool> > statgen_mi::parameters::_flags;

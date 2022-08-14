@@ -20,7 +20,7 @@
 #include "statgen-mi/transpose_matrix.h"
 
 
-void MI::matrix_transposer::clear_internals() {
+void statgen_mi::matrix_transposer::clear_internals() {
   for (subunit_vector::iterator iter = _matrix_subunits.begin();
        iter != _matrix_subunits.end(); ++iter) {
     if (iter->second.get()) {
@@ -36,14 +36,14 @@ void MI::matrix_transposer::clear_internals() {
   _per_line_annotations.clear();
 }
 
-bool MI::matrix_transposer::transpose_a_matrix(void (*input_converter)(const std::string &, MI::prob_vector &, MI::annotations &),
+bool statgen_mi::matrix_transposer::transpose_a_matrix(void (*input_converter)(const std::string &, statgen_mi::prob_vector &, statgen_mi::annotations &),
 					       prob_vector &result,
 					       unsigned ram_limit,
 					       unsigned disk_limit) {
   unsigned max_vector_count = 0;
   std::string line = "";
   prob_vector vec;
-  MI::annotations annot;
+  statgen_mi::annotations annot;
   //here's the deal:
   /*
     open the file
@@ -78,9 +78,9 @@ bool MI::matrix_transposer::transpose_a_matrix(void (*input_converter)(const std
   }
 }
 
-bool MI::matrix_transposer::get_a_line_from_single_matrix(prob_vector &vec) {
+bool statgen_mi::matrix_transposer::get_a_line_from_single_matrix(prob_vector &vec) {
   //this one's easier. get the values from a column in a single prob_vector
-  //MI::prob_vector vec;
+  //statgen_mi::prob_vector vec;
   vec.clear();
   if (_current_column == _single_matrix.at(0).size()) return false;
   for (unsigned i = 0; i < _single_matrix.size(); ++i) {
@@ -91,9 +91,9 @@ bool MI::matrix_transposer::get_a_line_from_single_matrix(prob_vector &vec) {
   return true;
 }
 
-bool MI::matrix_transposer::get_a_line_from_multiple_files(prob_vector &vec) {
+bool statgen_mi::matrix_transposer::get_a_line_from_multiple_files(prob_vector &vec) {
   std::string line = "";
-  //MI::prob_vector vec;
+  //statgen_mi::prob_vector vec;
   double p1 = 0.0, p2 = 0.0;//  std::pair<double, double> val;
   
   for (subunit_vector::iterator iter = _matrix_subunits.begin(); iter != _matrix_subunits.end(); ++iter) {
@@ -109,16 +109,16 @@ bool MI::matrix_transposer::get_a_line_from_multiple_files(prob_vector &vec) {
   return true;
 }
 
-bool MI::matrix_transposer::get_a_line(void (*input_converter)(const std::string &, MI::prob_vector &, MI::annotations &),
+bool statgen_mi::matrix_transposer::get_a_line(void (*input_converter)(const std::string &, statgen_mi::prob_vector &, statgen_mi::annotations &),
 				       prob_vector &result,
 				       annotations &result_annotation,
 				       bool input_is_snp_major,
 				       bool output_is_snp_major) {
   std::string line = "";
-  MI::prob_vector vec;
+  statgen_mi::prob_vector vec;
   result.clear();
-  //MI::annotations annot;
-  if (!_input) _input = MI::reconcile_reader(get_filename());
+  //statgen_mi::annotations annot;
+  if (!_input) _input = statgen_mi::reconcile_reader(get_filename());
   if (input_is_snp_major == output_is_snp_major) {
     if (_input->getline(line)) {
       (*input_converter)(line, result, result_annotation);
@@ -133,7 +133,7 @@ bool MI::matrix_transposer::get_a_line(void (*input_converter)(const std::string
   }
 }
 
-void MI::matrix_transposer::write_current_matrix() {
+void statgen_mi::matrix_transposer::write_current_matrix() {
   std::string a_filename = "";
   std::ifstream input;
   while (true) {
@@ -147,9 +147,9 @@ void MI::matrix_transposer::write_current_matrix() {
       break;
     }
   }
-  MI::fileinterface_writer *output = 0;
+  statgen_mi::fileinterface_writer *output = 0;
   try {
-    output = MI::reconcile_writer(a_filename.c_str());
+    output = statgen_mi::reconcile_writer(a_filename.c_str());
     for (unsigned i = 0; i < _single_matrix.at(0).size(); i += 2) {
       std::string line = "";
       for (unsigned j = 0; j < _single_matrix.size(); ++j) {

@@ -27,4 +27,4 @@
 
 #include "statgen-mi/boost_random.h"
 
-MI::boost_random::base_generator_type MI::boost_random::generator;
+statgen_mi::boost_random::base_generator_type statgen_mi::boost_random::generator;

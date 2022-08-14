@@ -30,7 +30,7 @@
 #include "statgen-mi/prob_vector.h"
 #include "statgen-mi/utilities.h"
 
-namespace MI {
+namespace statgen_mi {
   class imputation_manager {
   public:
     imputation_manager()
@@ -42,8 +42,8 @@ namespace MI {
 
     void set_filename_generator(std::string(*ptr)(unsigned)) {_filename_generator = ptr;}
     std::string(*get_filename_generator())(unsigned) const {return _filename_generator;}
-    void add_file_handler(void(*ptr)(const std::string &, MI::prob_vector &, MI::annotations &)) {_per_file_handlers.push_back(ptr);}
-    void(*get_file_handler(unsigned index))(const std::string &, MI::prob_vector &, MI::annotations &) const {
+    void add_file_handler(void(*ptr)(const std::string &, statgen_mi::prob_vector &, statgen_mi::annotations &)) {_per_file_handlers.push_back(ptr);}
+    void(*get_file_handler(unsigned index))(const std::string &, statgen_mi::prob_vector &, statgen_mi::annotations &) const {
       if (index >= _per_file_handlers.size()) throw std::domain_error("imputation_manager: invalid handler index");
       return _per_file_handlers.at(index);
     }
@@ -54,7 +54,7 @@ namespace MI {
     unsigned file_count() const {return _per_file_handlers.size();}
   private:
     std::string(*_filename_generator)(unsigned);
-    typename std::vector<void(*)(const std::string &, MI::prob_vector &, MI::annotations &)> _per_file_handlers;
+    typename std::vector<void(*)(const std::string &, statgen_mi::prob_vector &, statgen_mi::annotations &)> _per_file_handlers;
   };
 
   class program_manager {
@@ -76,10 +76,10 @@ namespace MI {
 
     void set_filename_generator(std::string(*ptr)(unsigned, unsigned)) {_filename_generator = ptr;}
     std::string(*get_filename_generator())(unsigned, unsigned) const {return _filename_generator;}
-    void set_genotype_handler(std::string(*ptr)(const MI::prob_vector &, const MI::annotations &, unsigned index)) {_genotype_handler = ptr;}
-    std::string(*get_genotype_handler())(const MI::prob_vector &, const MI::annotations &, unsigned index) {return _genotype_handler;}
-    void add_file_handler(std::string(*ptr)(const MI::annotations &)) {_nongeno_handlers.push_back(ptr);}
-    std::string(*get_file_handler(unsigned index))(const MI::annotations &) const {
+    void set_genotype_handler(std::string(*ptr)(const statgen_mi::prob_vector &, const statgen_mi::annotations &, unsigned index)) {_genotype_handler = ptr;}
+    std::string(*get_genotype_handler())(const statgen_mi::prob_vector &, const statgen_mi::annotations &, unsigned index) {return _genotype_handler;}
+    void add_file_handler(std::string(*ptr)(const statgen_mi::annotations &)) {_nongeno_handlers.push_back(ptr);}
+    std::string(*get_file_handler(unsigned index))(const statgen_mi::annotations &) const {
       if (index >= _nongeno_handlers.size()) throw std::domain_error("program_manager: invalid handler index");
       return _nongeno_handlers.at(index);
     }
@@ -102,8 +102,8 @@ namespace MI {
     unsigned file_count() const {return _nongeno_handlers.size();}
   private:
     std::string(*_filename_generator)(unsigned, unsigned);
-    std::string(*_genotype_handler)(const MI::prob_vector &, const MI::annotations &, unsigned index);
-    typename std::vector<std::string(*)(const MI::annotations &)> _nongeno_handlers;
+    std::string(*_genotype_handler)(const statgen_mi::prob_vector &, const statgen_mi::annotations &, unsigned index);
+    typename std::vector<std::string(*)(const statgen_mi::annotations &)> _nongeno_handlers;
     std::string(*_command_formatter)(std::string(*)(unsigned, unsigned), unsigned);
     bool(*_result_parser)(const std::string &, std::string &, double &, double &, std::string &);
     std::string(*_extra_file_remover)(unsigned);
@@ -132,12 +132,12 @@ namespace MI {
   */
   ///////////////////////////IMPUTE2///////////////////////////////
   std::string impute2_filename_generator(unsigned index);
-  void impute2_handle_gen_line(const std::string &line, MI::prob_vector &vec, MI::annotations &annot);
-  void impute2_handle_sample_line(const std::string &line, MI::prob_vector &vec, MI::annotations &annot);
+  void impute2_handle_gen_line(const std::string &line, statgen_mi::prob_vector &vec, statgen_mi::annotations &annot);
+  void impute2_handle_sample_line(const std::string &line, statgen_mi::prob_vector &vec, statgen_mi::annotations &annot);
   ///////////////////////////SNPTEST///////////////////////////////
   std::string snptest_filename_generator(unsigned index, unsigned draw);
-  std::string snptest_write_gen_line(const MI::prob_vector &vec, const MI::annotations &annot, unsigned index);
-  std::string snptest_write_sample_line(const MI::annotations &annot);
+  std::string snptest_write_gen_line(const statgen_mi::prob_vector &vec, const statgen_mi::annotations &annot, unsigned index);
+  std::string snptest_write_sample_line(const statgen_mi::annotations &annot);
   std::string snptest_format_command(std::string(*filename_generator)(unsigned, unsigned),
 				     unsigned draw);
   bool snptest_process_results(const std::string &result_line,
@@ -149,10 +149,10 @@ namespace MI {
   void snptest_test_trait_type(std::vector<std::string> &values, bool &trait_is_01, bool &trait_is_12, bool &trait_is_integral);
   ///////////////////////////PLINK/////////////////////////////////
   std::string plink_filename_generator(unsigned index, unsigned draw);
-  std::string plink_write_bed_line(const MI::prob_vector &vec, const MI::annotations &annot, unsigned index);
-  std::string plink_write_bim_line(const MI::annotations &annot);
-  std::string plink_write_fam_line(const MI::annotations &annot);
-  std::string plink_write_pheno_line(const MI::annotations &annot);
+  std::string plink_write_bed_line(const statgen_mi::prob_vector &vec, const statgen_mi::annotations &annot, unsigned index);
+  std::string plink_write_bim_line(const statgen_mi::annotations &annot);
+  std::string plink_write_fam_line(const statgen_mi::annotations &annot);
+  std::string plink_write_pheno_line(const statgen_mi::annotations &annot);
   std::string plink_format_command(std::string(*filename_generator)(unsigned, unsigned),
 				   unsigned draw);
   bool plink_process_results(const std::string &result_line,
@@ -163,10 +163,10 @@ namespace MI {
   std::string plink_extra_file_remover(unsigned draw);
   //////////////////////////EMMAX-KIN//////////////////////////////
   std::string emmaxkin_filename_generator(unsigned index, unsigned draw);
-  std::string emmaxkin_write_tped_line(const MI::prob_vector &vec, const MI::annotations &annot, unsigned index);
-  std::string emmaxkin_write_tfam_line(const MI::annotations &annot);
-  std::string emmaxkin_write_pheno_line(const MI::annotations &annot);
-  std::string emmaxkin_write_covar_line(const MI::annotations &annot);
+  std::string emmaxkin_write_tped_line(const statgen_mi::prob_vector &vec, const statgen_mi::annotations &annot, unsigned index);
+  std::string emmaxkin_write_tfam_line(const statgen_mi::annotations &annot);
+  std::string emmaxkin_write_pheno_line(const statgen_mi::annotations &annot);
+  std::string emmaxkin_write_covar_line(const statgen_mi::annotations &annot);
   std::string emmaxkin_format_command(std::string(*filename_generator)(unsigned, unsigned),
 				      unsigned draw);
   //////////////////////////EMMAX//////////////////////////////////

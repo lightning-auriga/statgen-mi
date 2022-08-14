@@ -19,13 +19,13 @@
 
 #include "statgen-mi/config_interpreter.h"
 
-void MI::config_interpreter::interpret_imputed_dataset_config(const std::string &filename,
-							      std::map<std::string, MI::imputed_dataset_description> &result) {
-  MI::fileinterface_reader *input = 0;
+void statgen_mi::config_interpreter::interpret_imputed_dataset_config(const std::string &filename,
+							      std::map<std::string, statgen_mi::imputed_dataset_description> &result) {
+  statgen_mi::fileinterface_reader *input = 0;
   std::string line = "", handle = "";
-  MI::imputed_dataset_description desc;
+  statgen_mi::imputed_dataset_description desc;
   try {
-    input = MI::reconcile_reader(filename);
+    input = statgen_mi::reconcile_reader(filename);
     while (get_imputed_dataset_chunk(input, handle, desc)) {
       result[handle] = desc;
     }
@@ -36,13 +36,13 @@ void MI::config_interpreter::interpret_imputed_dataset_config(const std::string 
     throw;
   }
 }
-void MI::config_interpreter::interpret_program_config(const std::string &filename,
-						      std::map<std::string, MI::program_description> &result) {
-  MI::fileinterface_reader *input = 0;
+void statgen_mi::config_interpreter::interpret_program_config(const std::string &filename,
+						      std::map<std::string, statgen_mi::program_description> &result) {
+  statgen_mi::fileinterface_reader *input = 0;
   std::string line = "", handle = "";
-  MI::program_description desc;
+  statgen_mi::program_description desc;
   try {
-    input = MI::reconcile_reader(filename);
+    input = statgen_mi::reconcile_reader(filename);
     while (get_program_chunk(input, handle, desc)) {
       result[handle] = desc;
     }
@@ -54,9 +54,9 @@ void MI::config_interpreter::interpret_program_config(const std::string &filenam
   }
 }
 
-bool MI::config_interpreter::get_imputed_dataset_chunk(MI::fileinterface_reader *input,
+bool statgen_mi::config_interpreter::get_imputed_dataset_chunk(statgen_mi::fileinterface_reader *input,
 						       std::string &handle,
-						       MI::imputed_dataset_description &desc) const {
+						       statgen_mi::imputed_dataset_description &desc) const {
   std::string line = "", tag = "", value = "", flag_description = "";
   bool within_fragment = false;
   while (input->getline(line)) {
@@ -120,9 +120,9 @@ bool MI::config_interpreter::get_imputed_dataset_chunk(MI::fileinterface_reader 
   }
   return false;
 }
-bool MI::config_interpreter::get_program_chunk(MI::fileinterface_reader *input,
+bool statgen_mi::config_interpreter::get_program_chunk(statgen_mi::fileinterface_reader *input,
 					       std::string &handle,
-					       MI::program_description &desc) const {
+					       statgen_mi::program_description &desc) const {
   std::string line = "", tag = "", value = "", flag_description = "";
   bool within_fragment = false;
   while (input->getline(line)) {

@@ -27,7 +27,7 @@
 #include "statgen-mi/cargs.h"
 #include "fileinterface/fileinterface.h"
 
-namespace MI {
+namespace statgen_mi {
 
 class submission_formatter {
  public:

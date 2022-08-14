@@ -34,20 +34,20 @@
 #include "statgen-mi/annotations.h"
 #include "fileinterface/fileinterface.h"
 
-namespace MI {
+namespace statgen_mi {
   class matrix_transposer {
   public:
 #ifdef FILEINTERFACE_HAVE_LIBZ
-    typedef MI::fileinterface_reader_gzip fileinterface_reader_type;
+    typedef statgen_mi::fileinterface_reader_gzip fileinterface_reader_type;
 #else
-    typedef MI::fileinterface_reader_flat fileinterface_reader_type;
+    typedef statgen_mi::fileinterface_reader_flat fileinterface_reader_type;
 #endif //FILEINTERFACE_HAVE_LIBZ
     typedef typename std::vector<std::pair<std::string, boost::shared_ptr<fileinterface_reader_type> > > subunit_vector;
     matrix_transposer()
       : _filename(""),
       _input(0),
       _current_column(0) {
-      throw std::domain_error("MI::matrix_transposer: must be initialized with filename");
+      throw std::domain_error("statgen_mi::matrix_transposer: must be initialized with filename");
     }
     matrix_transposer(const std::string &filename)
       : _filename(filename),
@@ -56,14 +56,14 @@ namespace MI {
 
     ~matrix_transposer() throw() {clear_internals();}
 
-    bool transpose_a_matrix(void (*input_converter)(const std::string &, MI::prob_vector &, MI::annotations &),
-			    //void (*output_converter)(const MI::prob_vector &, std::string &),
+    bool transpose_a_matrix(void (*input_converter)(const std::string &, statgen_mi::prob_vector &, statgen_mi::annotations &),
+			    //void (*output_converter)(const statgen_mi::prob_vector &, std::string &),
 			    prob_vector &result,
 			    unsigned ram_limit = 4,
 			    unsigned disk_limit = 20);
 
-    bool get_a_line(void (*input_converter)(const std::string &, MI::prob_vector &, MI::annotations &),
-		    //void (*output_converter)(const MI::prob_vector &, std::string &),
+    bool get_a_line(void (*input_converter)(const std::string &, statgen_mi::prob_vector &, statgen_mi::annotations &),
+		    //void (*output_converter)(const statgen_mi::prob_vector &, std::string &),
 		    prob_vector &result,
 		    annotations &annot,
 		    bool input_is_snp_major,
@@ -78,12 +78,12 @@ namespace MI {
     bool get_a_line_from_multiple_files(prob_vector &result);
     
     std::string _filename;
-    MI::fileinterface_reader *_input;
+    statgen_mi::fileinterface_reader *_input;
     subunit_vector _matrix_subunits;
-    std::vector<MI::prob_vector> _single_matrix;
+    std::vector<statgen_mi::prob_vector> _single_matrix;
     unsigned _current_column;
 
-    std::vector<MI::annotations> _per_line_annotations;
+    std::vector<statgen_mi::annotations> _per_line_annotations;
   };
 }
 

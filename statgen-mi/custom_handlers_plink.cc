@@ -20,29 +20,29 @@
 #include "statgen-mi/custom_handlers.h"
 
 /////////////////////////////////////////////////PLINK////////////////////////////////////////////////////////////
-std::string MI::plink_filename_generator(unsigned index, unsigned draw) {
+std::string statgen_mi::plink_filename_generator(unsigned index, unsigned draw) {
   switch (index) {
   case 0:
-    return MI::parameters::get_parameter("plink-bfile-prefix") + to_string<unsigned>(draw)
-      + MI::parameters::get_parameter("plink-bfile-suffix") + ".bed";
+    return statgen_mi::parameters::get_parameter("plink-bfile-prefix") + to_string<unsigned>(draw)
+      + statgen_mi::parameters::get_parameter("plink-bfile-suffix") + ".bed";
   case 1:
-    return MI::parameters::get_parameter("plink-bfile-prefix") + to_string<unsigned>(draw)
-      + MI::parameters::get_parameter("plink-bfile-suffix") + ".bim";
+    return statgen_mi::parameters::get_parameter("plink-bfile-prefix") + to_string<unsigned>(draw)
+      + statgen_mi::parameters::get_parameter("plink-bfile-suffix") + ".bim";
   case 2:
-    return MI::parameters::get_parameter("plink-bfile-prefix") + to_string<unsigned>(draw)
-      + MI::parameters::get_parameter("plink-bfile-suffix") + ".fam";
+    return statgen_mi::parameters::get_parameter("plink-bfile-prefix") + to_string<unsigned>(draw)
+      + statgen_mi::parameters::get_parameter("plink-bfile-suffix") + ".fam";
   case 3:
-    return MI::parameters::get_parameter("plink-out-prefix") + to_string<unsigned>(draw)
-      + MI::parameters::get_parameter("plink-out-suffix") + ".pheno";
+    return statgen_mi::parameters::get_parameter("plink-out-prefix") + to_string<unsigned>(draw)
+      + statgen_mi::parameters::get_parameter("plink-out-suffix") + ".pheno";
   case 4:
-    return MI::parameters::get_parameter("plink-out-prefix") + to_string<unsigned>(draw)
-      + MI::parameters::get_parameter("plink-out-suffix")
-      + (MI::parameters::get_flag("plink-linear") ? ".assoc.linear" : ".assoc.logistic");
+    return statgen_mi::parameters::get_parameter("plink-out-prefix") + to_string<unsigned>(draw)
+      + statgen_mi::parameters::get_parameter("plink-out-suffix")
+      + (statgen_mi::parameters::get_flag("plink-linear") ? ".assoc.linear" : ".assoc.logistic");
   default:
     throw std::domain_error("plink-filename-generator: invalid index \"" + to_string<unsigned>(index) + "\"");
   }
 }
-std::string MI::plink_write_bed_line(const MI::prob_vector &vec, const MI::annotations &annot, unsigned index) {
+std::string statgen_mi::plink_write_bed_line(const statgen_mi::prob_vector &vec, const statgen_mi::annotations &annot, unsigned index) {
   std::ostringstream o;
   double p1 = 0.0, p2 = 0.0;//, p3 = 0.0;
   unsigned res = 0;
@@ -59,7 +59,7 @@ std::string MI::plink_write_bed_line(const MI::prob_vector &vec, const MI::annot
   }
   return o.str();
 }
-std::string MI::plink_write_bim_line(const MI::annotations &annot) {
+std::string statgen_mi::plink_write_bim_line(const statgen_mi::annotations &annot) {
   std::ostringstream o;
   std::vector<std::string> rsid = annot.get("rsid");
   std::vector<std::string> pos = annot.get("pos");
@@ -82,7 +82,7 @@ std::string MI::plink_write_bim_line(const MI::annotations &annot) {
   }
   return o.str();
 }
-std::string MI::plink_write_fam_line(const MI::annotations &annot) {
+std::string statgen_mi::plink_write_fam_line(const statgen_mi::annotations &annot) {
   std::ostringstream o;
   std::vector<std::string> fid = annot.get("fid");
   std::vector<std::string> iid = annot.get("iid");
@@ -102,11 +102,11 @@ std::string MI::plink_write_fam_line(const MI::annotations &annot) {
   }
   return o.str();
 }
-std::string MI::plink_write_pheno_line(const MI::annotations &annot) {
-  std::string requested_covariates = MI::parameters::get_parameter("plink-covar-names");
+std::string statgen_mi::plink_write_pheno_line(const statgen_mi::annotations &annot) {
+  std::string requested_covariates = statgen_mi::parameters::get_parameter("plink-covar-names");
   while (requested_covariates.find(",") != std::string::npos)
     requested_covariates[requested_covariates.find(",")] = ' ';
-  std::string requested_phenotype = MI::parameters::get_parameter("plink-pheno-name");
+  std::string requested_phenotype = statgen_mi::parameters::get_parameter("plink-pheno-name");
   std::ostringstream o;
   o << "FID IID " << requested_phenotype << ' ' << requested_covariates << '\n';
   std::vector<std::string> values;
@@ -127,36 +127,36 @@ std::string MI::plink_write_pheno_line(const MI::annotations &annot) {
   }
   return o.str();  
 }
-std::string MI::plink_format_command(std::string(*filename_generator)(unsigned, unsigned),
+std::string statgen_mi::plink_format_command(std::string(*filename_generator)(unsigned, unsigned),
 				     unsigned draw) {
   std::string command = "";
   command += " --bed " + filename_generator(0, draw) + " --bim " + filename_generator(1, draw)
     + " --fam " + filename_generator(2, draw);
-  if (MI::parameters::get_flag("plink-linear") &&
-      MI::parameters::get_flag("plink-logistic"))
+  if (statgen_mi::parameters::get_flag("plink-linear") &&
+      statgen_mi::parameters::get_flag("plink-logistic"))
     throw std::domain_error("plink-format-command: either linear or logistic, not both, should be specified");
-  if (MI::parameters::get_flag("plink-linear"))
+  if (statgen_mi::parameters::get_flag("plink-linear"))
     command += " --linear";
-  else if (MI::parameters::get_flag("plink-logistic"))
+  else if (statgen_mi::parameters::get_flag("plink-logistic"))
     command += " --logistic";
   else
     throw std::domain_error("plink-format-command: neither linear nor logistic mode specified");
   
   command += " --pheno " + filename_generator(3, draw) + " --mpheno 1";
-  if (!MI::parameters::get_parameter("plink-covar-names").empty()) {
+  if (!statgen_mi::parameters::get_parameter("plink-covar-names").empty()) {
     command += " --covar-name "
-    + MI::parameters::get_parameter("plink-covar-names");
+    + statgen_mi::parameters::get_parameter("plink-covar-names");
   }
-  if (!MI::parameters::get_parameter("plink-vif").empty()) {
-    command += " --vif " + MI::parameters::get_parameter("plink-vif");
+  if (!statgen_mi::parameters::get_parameter("plink-vif").empty()) {
+    command += " --vif " + statgen_mi::parameters::get_parameter("plink-vif");
   }
 
   command += " --out "
-    + MI::parameters::get_parameter("plink-out-prefix") + to_string<unsigned>(draw)
-    + MI::parameters::get_parameter("plink-out-suffix");
+    + statgen_mi::parameters::get_parameter("plink-out-prefix") + to_string<unsigned>(draw)
+    + statgen_mi::parameters::get_parameter("plink-out-suffix");
   return command;  
 }
-bool MI::plink_process_results(const std::string &result_line,
+bool statgen_mi::plink_process_results(const std::string &result_line,
 			       std::string &rsid,
 			       double &beta,
 			       double &stderr,
@@ -167,15 +167,15 @@ bool MI::plink_process_results(const std::string &result_line,
   std::string chr = "", test = "";
   if (!(strm1 >> chr >> rsid >> pos >> effect_allele >> test >> nmiss >> beta >> stderr))
     throw std::domain_error("plink-process-results: unable to parse line \"" + result_line + "\"");
-  if (MI::parameters::get_flag("plink-logistic")) {
+  if (statgen_mi::parameters::get_flag("plink-logistic")) {
     beta = log(beta);
   }
   stderr = beta / stderr;
   return true;
 }
-std::string MI::plink_extra_file_remover(unsigned draw) {
+std::string statgen_mi::plink_extra_file_remover(unsigned draw) {
   std::string res = "";
-  res += MI::parameters::get_parameter("plink-out-prefix") + to_string<unsigned>(draw)
-    + MI::parameters::get_parameter("plink-out-suffix") + ".log";
+  res += statgen_mi::parameters::get_parameter("plink-out-prefix") + to_string<unsigned>(draw)
+    + statgen_mi::parameters::get_parameter("plink-out-suffix") + ".log";
   return res;
 }

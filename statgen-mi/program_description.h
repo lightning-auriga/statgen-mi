@@ -23,7 +23,7 @@
 #include <string>
 #include <stdexcept>
 
-namespace MI {
+namespace statgen_mi {
   class program_description {
   public:
   program_description()

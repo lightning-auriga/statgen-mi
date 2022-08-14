@@ -24,7 +24,7 @@
 
 #include "statgen-mi/cargs.h"
 
-void MI::cargs::parse_args(bool warn_unused) throw (std::domain_error) {
+void statgen_mi::cargs::parse_args(bool warn_unused) throw (std::domain_error) {
   //check for each accepted flag
 
   //set_flag("license", "l", "Print the license to this program", false);
@@ -169,13 +169,13 @@ void MI::cargs::parse_args(bool warn_unused) throw (std::domain_error) {
   if (warn_unused)
     print_ignored();
 }
-void MI::cargs::set_parameter(const std::string &parameter_long, 
+void statgen_mi::cargs::set_parameter(const std::string &parameter_long, 
 			      const std::string &parameter_short, 
 			      const std::string &description, 
 			      const std::string &default_value) {
   std::string value = default_value;
   if (parameter_long.empty())
-    throw std::domain_error("MI::cargs::set_parameter: empty parameter name");
+    throw std::domain_error("statgen_mi::cargs::set_parameter: empty parameter name");
   if (find("--" + parameter_long)) {
     value = get_formatted_value<std::string>("--" + parameter_long);
   } else if (!parameter_short.empty() &&
@@ -184,7 +184,7 @@ void MI::cargs::set_parameter(const std::string &parameter_long,
   }
   parameters::set_parameter(parameter_long, parameter_short, description, value);
 }
-void MI::cargs::set_flag(const std::string &parameter_long, 
+void statgen_mi::cargs::set_flag(const std::string &parameter_long, 
 			 const std::string &parameter_short, 
 			 const std::string &description, 
 			 bool default_value) {
@@ -196,10 +196,10 @@ void MI::cargs::set_flag(const std::string &parameter_long,
 		       ? !default_value 
 		       : default_value);
 }
-void MI::cargs::set_defaults() throw (std::domain_error) {
+void statgen_mi::cargs::set_defaults() throw (std::domain_error) {
   _found.resize(num_args(), false);
 }
-bool MI::cargs::find(const std::string &key) throw (std::domain_error) {
+bool statgen_mi::cargs::find(const std::string &key) throw (std::domain_error) {
   for (int i = 1; i < num_args(); ++i) {
     if (!std::string(arg_array()[i]).compare(key)) {
       if (_found.at(i)) {
@@ -210,7 +210,7 @@ bool MI::cargs::find(const std::string &key) throw (std::domain_error) {
   }
   return false;
 }
-void MI::cargs::print_ignored() const throw () {
+void statgen_mi::cargs::print_ignored() const throw () {
   for (int i = 1; i < num_args(); ++i) {
     if (!_found.at(i)) {
       std::cout << "unused command line entry: \"" 

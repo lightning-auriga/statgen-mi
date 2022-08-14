@@ -22,9 +22,9 @@
 
 #include "statgen-mi/boost_random.h"
 
-namespace MI {
+namespace statgen_mi {
   inline unsigned standard_genotype_draw(const double &p1, const double &p2) {
-    double draw = MI::boost_random::next_real(0.0, 1.0);
+    double draw = statgen_mi::boost_random::next_real(0.0, 1.0);
     if (draw <= p1) return 1;
     if (draw <= p2) return 2;
     return 3;

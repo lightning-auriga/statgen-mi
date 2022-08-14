@@ -19,7 +19,7 @@
 
 #include "statgen-mi/submission_formatter.h"
 
-std::string MI::submission_formatter::get_submission_command(const std::string &queue_type,
+std::string statgen_mi::submission_formatter::get_submission_command(const std::string &queue_type,
 							     const std::string &command,
 							     const std::string &output_filename,
 							     const std::string &error_filename,
@@ -48,13 +48,13 @@ std::string MI::submission_formatter::get_submission_command(const std::string &
   }
 }
 
-std::string MI::submission_formatter::get_submission_command_none(const std::string &command,
+std::string statgen_mi::submission_formatter::get_submission_command_none(const std::string &command,
 								  const std::string &output_filename,
 								  const std::string &error_filename) const {
   return command + " && echo \"Successfully completed\" > " + output_filename;
 }
 
-std::string MI::submission_formatter::get_submission_command_bsub(const std::string &command,
+std::string statgen_mi::submission_formatter::get_submission_command_bsub(const std::string &command,
 								 const std::string &output_filename,
 								 const std::string &error_filename,
 								 unsigned           mem_limit,
@@ -67,7 +67,7 @@ std::string MI::submission_formatter::get_submission_command_bsub(const std::str
   return prefix + command;
 }
 
-std::string MI::submission_formatter::get_submission_command_qsub(const std::string &command,
+std::string statgen_mi::submission_formatter::get_submission_command_qsub(const std::string &command,
 								  const std::string &output_filename,
 								  const std::string &error_filename,
 								  unsigned           mem_limit,
@@ -84,7 +84,7 @@ std::string MI::submission_formatter::get_submission_command_qsub(const std::str
 
 
 
-unsigned MI::submission_formatter::reconcile_memory(const std::string &mem) const {
+unsigned statgen_mi::submission_formatter::reconcile_memory(const std::string &mem) const {
   //want memory in MB
   /* accept formats:
      ### or ####: a number in MB
@@ -108,7 +108,7 @@ unsigned MI::submission_formatter::reconcile_memory(const std::string &mem) cons
   return res;
 }
 
-unsigned MI::submission_formatter::reconcile_time(const std::string &time) const {
+unsigned statgen_mi::submission_formatter::reconcile_time(const std::string &time) const {
   //want time in hours
   /* accept formats:
      (#+): a count of hours
@@ -152,13 +152,13 @@ unsigned MI::submission_formatter::reconcile_time(const std::string &time) const
 }
 
 
-void MI::submission_formatter::initialize_queue_maps() {
-  std::string queue_config_filename = MI::parameters::get_parameter("mi-submission-queue-config");
-  MI::fileinterface_reader *input = 0;
+void statgen_mi::submission_formatter::initialize_queue_maps() {
+  std::string queue_config_filename = statgen_mi::parameters::get_parameter("mi-submission-queue-config");
+  statgen_mi::fileinterface_reader *input = 0;
   std::string queue_name = "", queue_type = "", line = "";
   unsigned queue_max_mem = 0, queue_max_time = 0;
   try {
-    input = MI::reconcile_reader(queue_config_filename);
+    input = statgen_mi::reconcile_reader(queue_config_filename);
     while (input->getline(line)) {
       if (line.find("#") != std::string::npos) line = line.substr(0, line.find("#"));
       if (line.empty()) continue;
@@ -183,7 +183,7 @@ void MI::submission_formatter::initialize_queue_maps() {
   }
 }
 
-std::string MI::submission_formatter::get_best_queue(const std::string &queue_type,
+std::string statgen_mi::submission_formatter::get_best_queue(const std::string &queue_type,
 						     unsigned           mem_limit,
 						     unsigned           time_limit) const {
   std::map<std::string, std::multimap<unsigned, std::string> >::const_iterator mem_queue, time_queue;

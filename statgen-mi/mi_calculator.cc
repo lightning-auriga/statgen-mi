@@ -19,7 +19,7 @@
 
 #include "statgen-mi/mi_calculator.h"
 
-std::string MI::mi_calculator::report_result(const std::string &rsid,
+std::string statgen_mi::mi_calculator::report_result(const std::string &rsid,
 					     std::vector<double> &betas,
 					     std::vector<double> &stderrs,
 					     const std::vector<std::string> &effect_alleles) const {

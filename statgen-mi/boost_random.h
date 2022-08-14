@@ -38,7 +38,7 @@
 #include <cstdlib>
 //#include <iostream>
 #include <stdexcept>
-namespace MI {
+namespace statgen_mi {
   /*!
    * \brief wrapper class for boost's rngs.
    *
