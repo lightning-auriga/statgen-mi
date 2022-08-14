@@ -15,7 +15,7 @@ imputed_datasets:
 regression_models:
   model1:
     filename: "examples/phenotype_data.tsv"
-    phenotype: "phenoname"
+    phenotype: "pheno"
     covariates:
       - "covar1"
       - "covar2"
