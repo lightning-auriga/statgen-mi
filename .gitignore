@@ -11,7 +11,6 @@ generate.sh
 temp_config.h
 *pc
 *autom4te*
-fileinterface/lib*
 *.out
 stamp-h1
 *tar.gz
@@ -19,3 +18,5 @@ libtool
 examples/*txt
 examples/*log
 examples/.pversion
+node_modules
+package*json
