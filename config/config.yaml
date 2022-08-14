@@ -1,0 +1,12 @@
+manifest: "config/manifest.tsv"
+tools:
+  plink2:
+    executable: "plink2"
+    vcf_prefix: ""
+    vcf_suffix: ""
+    regression_type: "linear|logistic"
+    vif: 1000
+imputed_datasets:
+  - type: impute2
+    gen-filename: "Name of IMPUTE2 gen file to be processed"
+    sample-filename: "Name of IMPUTE2 sample file to be processed"
