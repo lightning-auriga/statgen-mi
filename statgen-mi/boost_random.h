@@ -1,5 +1,5 @@
 /*
-  Copyright 2015 Cameron Palmer
+  Copyright 2022 Cameron Palmer
 
   This file is part of statgen-mi.
 
