@@ -1,0 +1,40 @@
+tools:
+  snptest:
+    executable: "/path/to/snptest"
+    snp_major: yes
+    gen-prefix: "Prefix of SNPTEST gen per-draw files to be written"
+    gen-suffix: "Suffix of SNPTEST gen per-draw files to be written"
+    sample-prefix: "Prefix of SNPTEST sample per-draw files to be written"
+    sample-suffix: "Suffix of SNPTEST sample per-draw files to be written"
+    pheno: "Name of phenotype in SNPTEST sample filename to be analyzed"
+    covar: "Comma-delimited list of covariates for SNPTEST sample file"
+    frequentist: "Which SNPTEST frequentist mode should be employed"
+    method: "Which uncertainty handling method will be used"
+    output-prefix: "Prefix for SNPTEST per-draw result files"
+    output-suffix: "Suffix for SNPTEST per-draw result files"
+    autocorrect-traits: "Scan and calculate SNPTEST sample code for all traits"
+
+  plink:
+    executable: "/path/to/plink"
+    snp_major: yes
+    bfile-prefix: "Prefix of PLINK {bed, bim, fam} per-draw files to be written"
+    bfile-suffix: "Prefix of PLINK {bed, bim, fam} per-draw files to be written"
+    pheno-prefix: "Prefix of PLINK-format per-draw phenotype file to be written"
+    pheno-suffix: "Suffix of PLINK-format per-draw phenotype file to be written"
+    pheno-name: "Name of phenotype to be analyzed"
+    covar-names: "Comma-delimited list of covariates to be analyzed"
+    linear: "Whether the trait should be analyzed with linear regression"
+    logistic: "Whether the trait should be analyzed with logistic regression"
+    vif: "Variance inflation factor threshold for PLINK analysis"
+    out-prefix: "Prefix for PLINK per-draw result files"
+    out-suffix: "Suffix for PLINK per-draw result files"
+
+  emmaxkin:
+    executable: "/path/to/emmax-kin"
+    snp_major: yes
+    tfile-prefix: "Prefix of PLINK {tped, tfam} per-draw files to be written"
+    tfile-suffix: "Suffix of PLINK {tped, tfam} per-draw files to be written"
+    emmax-pheno-name: "Name of phenotype to be analyzed"
+    emmax-covar-names: "Comma-delimited list of covariates to be analyzed"
+    ibs: "Whether to create IBS kinship matrix"
+    bn: "Whether to create BN kinship matrix"
