@@ -45,6 +45,8 @@ properties:
       "^.*$":
         type: object
         properties:
+          filename:
+            type: string
           phenotype:
             type: string
           covariates:
@@ -56,15 +58,19 @@ properties:
           vif:
             type: integer
         required:
+          - filename
           - phenotype
           - model
         additionalProperties: no
   queue:
     type: object
     properties:
+      small_partition:
+        type: string
       large_partition:
         type: string
     required:
+      - small_partition
       - large_partition
 required:
   - tools
