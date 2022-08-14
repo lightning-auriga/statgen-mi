@@ -1,0 +1,21 @@
+import pandas as pd
+
+manifest = pd.read_table(config["manifest"], sep="\t").set_index("analysis", drop=False)
+
+TARGETS = expand(
+    "results/{analysis}/{tool}/output.tsv",
+    analysis=manifest.index,
+    tool=manifest["tool"],
+)
+
+
+rule all:
+    """
+    phony target to deploy all jobs
+    """
+    input:
+        TARGETS,
+
+
+include: "rules/minimac4.smk"
+include: "rules/plink2.smk"
