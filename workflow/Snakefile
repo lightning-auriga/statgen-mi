@@ -15,10 +15,6 @@ def link_tool_to_suffix(toolnames, modelnames, config):
     allow tool specific suffixes based on tool/model,
     thanks plink
     """
-    print("entering def")
-    print(toolnames)
-    print(modelnames)
-    print(config)
     res = []
     for (tool, model) in zip(toolnames, modelnames):
         if tool == "plink2":
@@ -40,11 +36,6 @@ def link_tool_to_suffix(toolnames, modelnames, config):
             raise ValueError("analysis tool not recognized: {}".format(tool))
     return res
 
-
-print(manifest["analysis"])
-print(manifest["imputed_dataset"])
-print(manifest["tool"])
-print(manifest["regression_model"])
 
 TARGETS = [
     "results/{}/{}/{}/{}/{}.{}.tsv".format(
