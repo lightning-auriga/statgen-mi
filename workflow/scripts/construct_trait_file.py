@@ -8,7 +8,7 @@ def run_construct_trait_file(snakemake):
 
     this doesn't probably do very much at the moment
     """
-    input_filename = (snakemake.input[0],)
+    input_filename = snakemake.input[0]
     output_filename = snakemake.output[0]
     phenotype = snakemake.params["phenotype"]
     covariates = snakemake.params["covariates"]
@@ -16,9 +16,9 @@ def run_construct_trait_file(snakemake):
     if phenotype not in data.columns:
         raise ValueError("requested phenotype not present in model file")
     if covariates is not None:
-        if ~set(covariates).issubset(data.columns):
+        if not all(item in data.columns for item in covariates):
             raise ValueError("requested covariates not present in model file")
-    data.to_csv(output_filename, sep="\t")
+    data.to_csv(output_filename, sep="\t", index=False)
 
 
 try:

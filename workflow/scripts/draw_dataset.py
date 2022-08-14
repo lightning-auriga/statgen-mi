@@ -25,9 +25,9 @@ def run_draw_dataset(snakemake):
     output according to the input probability distributions
     """
     random.seed()
-    input_filename = snakemake.input
+    input_filename = snakemake.input[0]
     input_format = snakemake.params["input_format"]
-    output_filename = snakemake.output
+    output_filename = snakemake.output[0]
     output_format = snakemake.params["output_format"]
 
     # for the moment, just touch output
@@ -36,7 +36,7 @@ def run_draw_dataset(snakemake):
             "([^\t]+)\t([^\t]+)\t([^\t]+)\t([^\t]+)\t([^\t]+)\t([^\t]+)\t([^\t]+)\t([^\t]+)\t"
         )
         gp_content_pattern = re.compile(":([0-9\\.]+),([0-9\\.]+),[0-9\\.]+")
-        with gzip.open(input_filename, "rb") as fin, open(output_filename, "w") as fout:
+        with gzip.open(input_filename, "rt") as fin, open(output_filename, "w") as fout:
             for input_line in fin:
                 if input_line.startswith("#"):
                     fout.write(input_line)
@@ -62,8 +62,8 @@ def run_draw_dataset(snakemake):
                             ),
                             "\t".join(
                                 [
-                                    draw_genotype[gp_content_match.group(i)]
-                                    for i in len(gp_content_match)
+                                    draw_genotype(gp_content_match[i])
+                                    for i in range(len(gp_content_match))
                                 ]
                             ),
                         )

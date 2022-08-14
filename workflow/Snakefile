@@ -53,7 +53,6 @@ TARGETS = [
         link_tool_to_suffix(manifest["tool"], manifest["regression_model"], config),
     )
 ]
-print(TARGETS)
 
 
 rule all:

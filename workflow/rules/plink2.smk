@@ -54,10 +54,10 @@ rule run_plink2_linear_regression:
         partition=config["queue"]["large_partition"],
     shell:
         "plink2 --memory {params.plink2_memlimit} --threads {threads} "
-        "--vcf {input.vcf} "
+        "--vcf {input.vcf} --double-id "
         "--glm hide-covar cols={params.plink2_cols} {params.plink2_regression_modifiers} "
         "--pheno {input.pheno} {params.phenos} {params.covars} "
-        "--out {params.plink2_outprefix}"
+        "--out {params.plink2_outprefix} && mv {params.plink2_outprefix}.log {output.log}"
 
 
 use rule run_plink2_linear_regression as run_plink2_logistic_regression with:
