@@ -21,8 +21,8 @@
  * \file prob_vector.h
  * \brief stored imputed data in compressed formate
  */
-#ifndef __MI_PROB_VECTOR_H__
-#define __MI_PROB_VECTOR_H__
+#ifndef STATGEN_MI_PROB_VECTOR_H__
+#define STATGEN_MI_PROB_VECTOR_H__
 #include <vector>
 #include <stdexcept>
 #include <cmath>
@@ -139,4 +139,4 @@ namespace MI {
     unsigned _init;
   };
 }
-#endif //__MI_PROB_VECTOR_H__
+#endif //STATGEN_MI_PROB_VECTOR_H__

@@ -17,8 +17,8 @@
   along with statgen-mi.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef __MI_PARAMETERS_H__
-#define __MI_PARAMETERS_H__
+#ifndef STATGEN_MI_PARAMETERS_H__
+#define STATGEN_MI_PARAMETERS_H__
 #include <iostream>
 #include <vector>
 #include <map>

@@ -17,8 +17,8 @@
   along with statgen-mi.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef __MI_HELPER_H__
-#define __MI_HELPER_H__
+#ifndef STATGEN_MI_HELPER_H__
+#define STATGEN_MI_HELPER_H__
 
 #include <string>
 #include <sstream>
@@ -180,4 +180,4 @@ namespace MI {
     }
   }
 }
-#endif //__MI_HELPER_H__
+#endif //STATGEN_MI_HELPER_H__

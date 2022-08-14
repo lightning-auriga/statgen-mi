@@ -17,8 +17,8 @@
   along with statgen-mi.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef __MI_CUSTOM_HANDLERS_H__
-#define __MI_CUSTOM_HANDLERS_H__
+#ifndef STATGEN_MI_CUSTOM_HANDLERS_H__
+#define STATGEN_MI_CUSTOM_HANDLERS_H__
 
 #include <map>
 #include <string>
@@ -182,4 +182,4 @@ namespace MI {
 }
 
 
-#endif //__MI_CUSTOM_HANDLERS_H__
+#endif //STATGEN_MI_CUSTOM_HANDLERS_H__

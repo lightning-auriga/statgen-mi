@@ -17,8 +17,8 @@
   along with statgen-mi.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef __MI_SUBMISSION_FORMATTER_H__
-#define __MI_SUBMISSION_FORMATTER_H__
+#ifndef STATGEN_MI_SUBMISSION_FORMATTER_H__
+#define STATGEN_MI_SUBMISSION_FORMATTER_H__
 
 #include <string>
 #include <stdexcept>
@@ -70,4 +70,4 @@ private:
 };
 
 }
-#endif //__MI_SUBMISSION_FORMATTER_H__
+#endif //STATGEN_MI_SUBMISSION_FORMATTER_H__
