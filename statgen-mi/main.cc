@@ -58,26 +58,26 @@ int main(int argc, char **argv) {
     7) in a separate --mi-clean run, combine the draw runs into a single result file and purge old files
   */
   try {
-    MI::boost_random::seed();
-    MI::cargs arg_parser(argc, argv);
+    statgen_mi::boost_random::seed();
+    statgen_mi::cargs arg_parser(argc, argv);
     arg_parser.parse_args(false);
 
-    if (MI::parameters::get_flag("version")) {
-      MI::parameters::print_license(std::cout);
+    if (statgen_mi::parameters::get_flag("version")) {
+      statgen_mi::parameters::print_license(std::cout);
       return 0;
     }
     
     std::string imputed_dataset_config = "", submission_queue_config = "", program_config = "";
-    MI::config_interpreter interpreter(arg_parser);
-    std::map<std::string, MI::imputed_dataset_description> imputed_dataset_stockpile;
-    std::map<std::string, MI::imputed_dataset_description>::const_iterator current_imputed_dataset_description;
-    std::map<std::string, MI::program_description> program_stockpile;
-    std::map<std::string, MI::program_description>::const_iterator current_program_description;
+    statgen_mi::config_interpreter interpreter(arg_parser);
+    std::map<std::string, statgen_mi::imputed_dataset_description> imputed_dataset_stockpile;
+    std::map<std::string, statgen_mi::imputed_dataset_description>::const_iterator current_imputed_dataset_description;
+    std::map<std::string, statgen_mi::program_description> program_stockpile;
+    std::map<std::string, statgen_mi::program_description>::const_iterator current_program_description;
     try {
       //get the configuration files
-      imputed_dataset_config = MI::parameters::get_parameter("mi-imputed-dataset-config");
-      submission_queue_config = MI::parameters::get_parameter("mi-submission-queue-config");
-      program_config = MI::parameters::get_parameter("mi-program-config");
+      imputed_dataset_config = statgen_mi::parameters::get_parameter("mi-imputed-dataset-config");
+      submission_queue_config = statgen_mi::parameters::get_parameter("mi-submission-queue-config");
+      program_config = statgen_mi::parameters::get_parameter("mi-program-config");
       //parse the configuration files, adding necessary flags to cargs as needed
       interpreter.interpret_imputed_dataset_config(imputed_dataset_config,
 						   imputed_dataset_stockpile);
@@ -87,18 +87,18 @@ int main(int argc, char **argv) {
       arg_parser.print_ignored();
     } catch (const std::domain_error &e) {
       std::cerr << "error: could not parse input configuration files" << std::endl;
-      MI::parameters::print_help(std::cerr);
+      statgen_mi::parameters::print_help(std::cerr);
       return 42;
     }
-    if (argc < 2 || MI::parameters::get_flag("help")) {
-      MI::parameters::print_help(std::cout);
+    if (argc < 2 || statgen_mi::parameters::get_flag("help")) {
+      statgen_mi::parameters::print_help(std::cout);
       return 0;
     }
 		
 
     //hack the user parameters
-    unsigned N = MI::from_string<unsigned>(MI::parameters::get_parameter("mi-draw-number"));
-    unsigned baseline_memory = MI::from_string<unsigned>(MI::parameters::get_parameter("mi-baseline-memory"));
+    unsigned N = statgen_mi::from_string<unsigned>(statgen_mi::parameters::get_parameter("mi-draw-number"));
+    unsigned baseline_memory = statgen_mi::from_string<unsigned>(statgen_mi::parameters::get_parameter("mi-baseline-memory"));
 
     unsigned job_submission_memory_limit = 0;
     unsigned job_submission_time_limit = 0;
@@ -107,18 +107,18 @@ int main(int argc, char **argv) {
     std::string line = "";
     
     ////////////////////// stockpiles of custom handlers
-    MI::imputed_input_handler_map imputed_dataset_line_readers;
-    MI::imputed_input_handler_map::iterator current_imputed_dataset_handler;
-    MI::software_input_handler_map software_input_line_writers;
-    MI::software_input_handler_map::iterator current_software_input_writer;
+    statgen_mi::imputed_input_handler_map imputed_dataset_line_readers;
+    statgen_mi::imputed_input_handler_map::iterator current_imputed_dataset_handler;
+    statgen_mi::software_input_handler_map software_input_line_writers;
+    statgen_mi::software_input_handler_map::iterator current_software_input_writer;
     
     //have to actually populate the above
     populate_imputed_data_handlers(imputed_dataset_line_readers);
     populate_software_data_handlers(software_input_line_writers);
     
     //now get the user requested types    
-    std::string imputed_dataset_type = MI::parameters::get_parameter("imputed-dataset-type");
-    std::string program_run_type = MI::parameters::get_parameter("program-run-type");
+    std::string imputed_dataset_type = statgen_mi::parameters::get_parameter("imputed-dataset-type");
+    std::string program_run_type = statgen_mi::parameters::get_parameter("program-run-type");
     //and confirm they actually exist in the various stockpiles
     if ((current_imputed_dataset_description = imputed_dataset_stockpile.find(imputed_dataset_type))
 	== imputed_dataset_stockpile.end()) {
@@ -138,19 +138,19 @@ int main(int argc, char **argv) {
 
     
     
-    if (!MI::parameters::get_flag("mi-clean")) {
-      MI::annotations annot;
-      MI::prob_vector vec;
+    if (!statgen_mi::parameters::get_flag("mi-clean")) {
+      statgen_mi::annotations annot;
+      statgen_mi::prob_vector vec;
       ///////////////////////////FIRST YOU READ DATA FROM THE IMPUTED DATA FILES/////////////////////////////////
       //handle the input data with a matrix transposer; will be dealt with later by-line
-      MI::matrix_transposer prob_handler(current_imputed_dataset_handler->second.get_filename_generator()(0));
+      statgen_mi::matrix_transposer prob_handler(current_imputed_dataset_handler->second.get_filename_generator()(0));
       //handle the remaining input files
-      MI::fileinterface_reader *input = 0;
+      statgen_mi::fileinterface_reader *input = 0;
       try {
 	for (unsigned all_file_counter = 1;
 	     all_file_counter < current_imputed_dataset_handler->second.file_count();
 	     ++all_file_counter) {
-	  input = MI::reconcile_reader(current_imputed_dataset_handler->second.get_filename_generator()(all_file_counter));
+	  input = statgen_mi::reconcile_reader(current_imputed_dataset_handler->second.get_filename_generator()(all_file_counter));
 	  //get a line
 	  while (input->getline(line)) {
 	    current_imputed_dataset_handler->second.get_file_handler(all_file_counter)(line, vec, annot);
@@ -167,11 +167,11 @@ int main(int argc, char **argv) {
 
 
       /////////////////////////////////////////THEN YOU WRITE DATA FOR MI RUNS/////////////////////////////////////////////////
-      std::vector<MI::fileinterface_writer *> drawn_datasets;
-      MI::fileinterface_writer *output = 0;
+      std::vector<statgen_mi::fileinterface_writer *> drawn_datasets;
+      statgen_mi::fileinterface_writer *output = 0;
       try {
 	for (unsigned current_draw = 1; current_draw <= N; ++current_draw) {
-	  output = MI::reconcile_writer(current_software_input_writer->second.get_filename_generator()(0, current_draw));
+	  output = statgen_mi::reconcile_writer(current_software_input_writer->second.get_filename_generator()(0, current_draw));
 	  drawn_datasets.push_back(output);
 	  output = 0;
 	}
@@ -206,7 +206,7 @@ int main(int argc, char **argv) {
 	     all_file_counter < current_software_input_writer->second.file_count();
 	     ++all_file_counter) {
 	  for (unsigned current_draw = 1; current_draw <= N; ++current_draw) {
-	    output = MI::reconcile_writer(current_software_input_writer->second.get_filename_generator()(all_file_counter + 1, current_draw));
+	    output = statgen_mi::reconcile_writer(current_software_input_writer->second.get_filename_generator()(all_file_counter + 1, current_draw));
 	    line = current_software_input_writer->second.get_file_handler(all_file_counter)(annot);
 	    output->writeline(line);
 	    output->close();
@@ -216,7 +216,7 @@ int main(int argc, char **argv) {
 	}
       } catch (...) {
 	if (output) delete output;
-	for (std::vector<MI::fileinterface_writer *>::iterator iter = drawn_datasets.begin();
+	for (std::vector<statgen_mi::fileinterface_writer *>::iterator iter = drawn_datasets.begin();
 	     iter != drawn_datasets.end(); ++iter) {
 	  if (*iter) delete *iter;
 	}
@@ -226,42 +226,42 @@ int main(int argc, char **argv) {
 
       ////////////////////////TIME TO LAUNCH SOME JOBS////////////////////////////////////
       std::string command = "";
-      MI::submission_formatter subformat;
+      statgen_mi::submission_formatter subformat;
       for (unsigned i = 1; i <= N; ++i) {
 	command = current_software_input_writer->second.get_command_formatter()(current_software_input_writer->second.get_filename_generator(),
 										i);
 	command = current_program_description->second.program_executable() + " " + command;
-	command = subformat.get_submission_command(MI::parameters::get_parameter("mi-queue-type"),
+	command = subformat.get_submission_command(statgen_mi::parameters::get_parameter("mi-queue-type"),
 						   command,
-						   MI::parameters::get_parameter("mi-output-prefix") + ".draw" + MI::to_string<unsigned>(i) + ".output",//output_filename,
-						   MI::parameters::get_parameter("mi-output-prefix") + ".draw" + MI::to_string<unsigned>(i) + ".error",//error_filename
-						   MI::parameters::get_parameter("mi-baseline-memory"),
-						   MI::parameters::get_parameter("mi-time"));
+						   statgen_mi::parameters::get_parameter("mi-output-prefix") + ".draw" + statgen_mi::to_string<unsigned>(i) + ".output",//output_filename,
+						   statgen_mi::parameters::get_parameter("mi-output-prefix") + ".draw" + statgen_mi::to_string<unsigned>(i) + ".error",//error_filename
+						   statgen_mi::parameters::get_parameter("mi-baseline-memory"),
+						   statgen_mi::parameters::get_parameter("mi-time"));
 	//std::cout << "I think I should launch the following command:\n\"" << command << "\"" << std::endl;
 	if (system(command.c_str())) {
 	  throw std::domain_error("unable to launch command \"" + command + "\"");
 	}
       }
     } else {
-      MI::mi_calculator calc;
-      std::vector<MI::fileinterface_reader *> inputs;
-      MI::fileinterface_reader *input = 0;
-      MI::fileinterface_writer *output = 0;
+      statgen_mi::mi_calculator calc;
+      std::vector<statgen_mi::fileinterface_reader *> inputs;
+      statgen_mi::fileinterface_reader *input = 0;
+      statgen_mi::fileinterface_writer *output = 0;
       try {
 	std::vector<std::string> lines;
 	lines.resize(N);
 	//for each MI draw
 	for (unsigned i = 1; i <= N; ++i) {
 	  //make sure the job finished successfully
-	  if (!MI::successfully_completed(MI::parameters::get_parameter("mi-output-prefix") + ".draw" + MI::to_string<unsigned>(i) + ".output"))
-	    throw std::domain_error("detected job failure for draw " + MI::to_string<unsigned>(i));
+	  if (!statgen_mi::successfully_completed(statgen_mi::parameters::get_parameter("mi-output-prefix") + ".draw" + statgen_mi::to_string<unsigned>(i) + ".output"))
+	    throw std::domain_error("detected job failure for draw " + statgen_mi::to_string<unsigned>(i));
 	  //open the analysis result file
-	  input = MI::reconcile_reader(current_software_input_writer->second.get_filename_generator()(current_software_input_writer->second.file_count()+1, i));
+	  input = statgen_mi::reconcile_reader(current_software_input_writer->second.get_filename_generator()(current_software_input_writer->second.file_count()+1, i));
 	  inputs.push_back(input);
 	  input = 0;
 	}
 	//open the final results file
-	output = MI::reconcile_writer(MI::parameters::get_parameter("mi-output-prefix") + ".combined_results.txt");
+	output = statgen_mi::reconcile_writer(statgen_mi::parameters::get_parameter("mi-output-prefix") + ".combined_results.txt");
 	//write the final results header
 	output->writeline("RSID EFFECTALLELE NDRAWS BETA VAR-WITHIN VAR-BETWEEN VAR-TOTAL DOF TSTAT");
 	std::vector<double> betas, stderrs;
@@ -289,7 +289,7 @@ int main(int argc, char **argv) {
 	  if (all_files_complete) break;
 	}
 
-	for (std::vector<MI::fileinterface_reader *>::iterator iter = inputs.begin(); iter != inputs.end(); ++iter) {
+	for (std::vector<statgen_mi::fileinterface_reader *>::iterator iter = inputs.begin(); iter != inputs.end(); ++iter) {
 	  if (*iter) {
 	    (*iter)->close();
 	    delete *iter;
@@ -301,7 +301,7 @@ int main(int argc, char **argv) {
 	output = 0;
       } catch (...) {
 	if (input) delete input;
-	for (std::vector<MI::fileinterface_reader *>::iterator iter = inputs.begin(); iter != inputs.end(); ++iter) {
+	for (std::vector<statgen_mi::fileinterface_reader *>::iterator iter = inputs.begin(); iter != inputs.end(); ++iter) {
 	  if (*iter) delete *iter;
 	}
 	if (output) delete output;
@@ -315,13 +315,13 @@ int main(int argc, char **argv) {
       for (unsigned i = 1; i <= N; ++i) {
 	//for each file provided by the custom software handler
 	for (unsigned j = 0; j <= current_software_input_writer->second.file_count()+1; ++j) {
-	  MI::safely_remove(current_software_input_writer->second.get_filename_generator()(j, i));
+	  statgen_mi::safely_remove(current_software_input_writer->second.get_filename_generator()(j, i));
 	}
 	//the submission output files, and potentially the error files if using certain queue types
-	MI::safely_remove(MI::parameters::get_parameter("mi-output-prefix") + ".draw" + MI::to_string<unsigned>(i) + ".output");
-	MI::safely_remove(MI::parameters::get_parameter("mi-output-prefix") + ".draw" + MI::to_string<unsigned>(i) + ".error", false);
+	statgen_mi::safely_remove(statgen_mi::parameters::get_parameter("mi-output-prefix") + ".draw" + statgen_mi::to_string<unsigned>(i) + ".output");
+	statgen_mi::safely_remove(statgen_mi::parameters::get_parameter("mi-output-prefix") + ".draw" + statgen_mi::to_string<unsigned>(i) + ".error", false);
 	if (current_software_input_writer->second.get_extra_file_remover()) {
-	  MI::safely_remove(current_software_input_writer->second.get_extra_file_remover()(i), false);
+	  statgen_mi::safely_remove(current_software_input_writer->second.get_extra_file_remover()(i), false);
 	}
       }
     }

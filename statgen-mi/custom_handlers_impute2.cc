@@ -20,19 +20,19 @@
 #include "statgen-mi/custom_handlers.h"
 
 ///////////////////////////////////IMPUTE2////////////////////////////////////////////////////////////////////////
-std::string MI::impute2_filename_generator(unsigned index) {
+std::string statgen_mi::impute2_filename_generator(unsigned index) {
   //genotype data first
   switch (index) {
   case 0:
-    return MI::parameters::get_parameter("impute2-gen-filename");
+    return statgen_mi::parameters::get_parameter("impute2-gen-filename");
   case 1:
-    return MI::parameters::get_parameter("impute2-sample-filename");
+    return statgen_mi::parameters::get_parameter("impute2-sample-filename");
   default:
     throw std::domain_error("impute2_filename_generator: invalid index \"" + to_string<unsigned>(index) + "\"");
   }
 }
 
-void MI::impute2_handle_gen_line(const std::string &line, MI::prob_vector &vec, MI::annotations &annots) {
+void statgen_mi::impute2_handle_gen_line(const std::string &line, statgen_mi::prob_vector &vec, statgen_mi::annotations &annots) {
   std::string chr = "", rsid = "", pos = "", a1 = "", a2 = "";
   double p1 = 0.0, p2 = 0.0, p3 = 0.0;
   std::istringstream strm1(line);
@@ -49,7 +49,7 @@ void MI::impute2_handle_gen_line(const std::string &line, MI::prob_vector &vec, 
   annots.add("a2", a2);
 }
 
-void MI::impute2_handle_sample_line(const std::string &line, MI::prob_vector &vec, MI::annotations &annot) {
+void statgen_mi::impute2_handle_sample_line(const std::string &line, statgen_mi::prob_vector &vec, statgen_mi::annotations &annot) {
   //going to have to assume that the sample phenotype/covariate data were preloaded
   //so just ignore the prob_vector
   vec.clear();

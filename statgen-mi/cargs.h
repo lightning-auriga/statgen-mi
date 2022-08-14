@@ -39,7 +39,7 @@
 #include "statgen-mi/utilities.h"
 //#include "statgen-mi/program_configuration.h"
 
-namespace MI {
+namespace statgen_mi {
   class cargs {
   public:
     /*!

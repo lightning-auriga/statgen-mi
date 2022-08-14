@@ -25,7 +25,7 @@
 #include "statgen-mi/program_description.h"
 #include "fileinterface/fileinterface.h"
 
-namespace MI {
+namespace statgen_mi {
   class config_interpreter {
   public:
     config_interpreter() {throw std::domain_error("config_interpreter must be provided a cargs object");}
@@ -36,16 +36,16 @@ namespace MI {
     ~config_interpreter() throw() {}
 
     void interpret_imputed_dataset_config(const std::string &filename,
-					  std::map<std::string, MI::imputed_dataset_description> &result);
+					  std::map<std::string, statgen_mi::imputed_dataset_description> &result);
     void interpret_program_config(const std::string &filename,
-				  std::map<std::string, MI::program_description> &result);
+				  std::map<std::string, statgen_mi::program_description> &result);
   private:
-    bool get_imputed_dataset_chunk(MI::fileinterface_reader *input,
+    bool get_imputed_dataset_chunk(statgen_mi::fileinterface_reader *input,
 				   std::string &handle,
-				   MI::imputed_dataset_description &desc) const;
-    bool get_program_chunk(MI::fileinterface_reader *input,
+				   statgen_mi::imputed_dataset_description &desc) const;
+    bool get_program_chunk(statgen_mi::fileinterface_reader *input,
 			   std::string &handle,
-			   MI::program_description &desc) const;
+			   statgen_mi::program_description &desc) const;
     cargs *_arg_parser;
   };
 }

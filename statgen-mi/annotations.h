@@ -24,7 +24,7 @@
 #include <string>
 #include <vector>
 
-namespace MI {
+namespace statgen_mi {
   class annotations {
   public:
     annotations() {}

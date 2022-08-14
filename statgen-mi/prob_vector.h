@@ -27,7 +27,7 @@
 #include <stdexcept>
 #include <cmath>
 #include <boost/math/special_functions/round.hpp>
-namespace MI {
+namespace statgen_mi {
   /*!
    * \brief use stl vector to store data, but store it compressed to save lots of space
    */

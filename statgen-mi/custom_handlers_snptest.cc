@@ -21,24 +21,24 @@
 
 ///////////////////////////////SNPTEST////////////////////////////////////////////////////////////////////////////
 
-std::string MI::snptest_filename_generator(unsigned index, unsigned draw) {
+std::string statgen_mi::snptest_filename_generator(unsigned index, unsigned draw) {
   //genotype data first
   switch (index) {
   case 0:
-    return MI::parameters::get_parameter("snptest-gen-prefix") + to_string<unsigned>(draw)
-      + MI::parameters::get_parameter("snptest-gen-suffix");
+    return statgen_mi::parameters::get_parameter("snptest-gen-prefix") + to_string<unsigned>(draw)
+      + statgen_mi::parameters::get_parameter("snptest-gen-suffix");
   case 1:
-    return MI::parameters::get_parameter("snptest-sample-prefix") + to_string<unsigned>(draw)
-      + MI::parameters::get_parameter("snptest-sample-suffix");
+    return statgen_mi::parameters::get_parameter("snptest-sample-prefix") + to_string<unsigned>(draw)
+      + statgen_mi::parameters::get_parameter("snptest-sample-suffix");
   case 2:
-    return MI::parameters::get_parameter("snptest-output-prefix") + to_string<unsigned>(draw)
-      + MI::parameters::get_parameter("snptest-output-suffix");
+    return statgen_mi::parameters::get_parameter("snptest-output-prefix") + to_string<unsigned>(draw)
+      + statgen_mi::parameters::get_parameter("snptest-output-suffix");
   default:
     throw std::domain_error("snptest_filename_generator: invalid index \"" + to_string<unsigned>(index) + "\"");
   }
 }
  
-std::string MI::snptest_write_gen_line(const MI::prob_vector &vec, const MI::annotations &annot, unsigned index) {
+std::string statgen_mi::snptest_write_gen_line(const statgen_mi::prob_vector &vec, const statgen_mi::annotations &annot, unsigned index) {
   //need chr, rsid, pos, a1, a2 from annot
   std::ostringstream o;
   o << annot.get("chr", index) << ' ' << annot.get("rsid", index) << ' '
@@ -64,20 +64,20 @@ std::string MI::snptest_write_gen_line(const MI::prob_vector &vec, const MI::ann
   return o.str();
 }
 
-std::string MI::snptest_write_sample_line(const MI::annotations &annot) {
-  std::string requested_covariates = MI::parameters::get_parameter("snptest-covar");
+std::string statgen_mi::snptest_write_sample_line(const statgen_mi::annotations &annot) {
+  std::string requested_covariates = statgen_mi::parameters::get_parameter("snptest-covar");
   while (requested_covariates.find(",") != std::string::npos)
     requested_covariates[requested_covariates.find(",")] = ' ';
-  std::string requested_phenotype = MI::parameters::get_parameter("snptest-pheno");
+  std::string requested_phenotype = statgen_mi::parameters::get_parameter("snptest-pheno");
   std::ostringstream o;
   o << "ID_1 ID_2 missing " << requested_phenotype << ' ' << requested_covariates << '\n';
   o << "0 0 0";// P";
   std::vector<std::string> values;
   //sigh. have to determine the types
   bool trait_is_01 = true, trait_is_12 = true, trait_is_integral = true;
-  if (annot.get(requested_phenotype + "_type", 0).empty() || MI::parameters::get_flag("snptest-autocorrect-traits")) {
+  if (annot.get(requested_phenotype + "_type", 0).empty() || statgen_mi::parameters::get_flag("snptest-autocorrect-traits")) {
     values = annot.get(requested_phenotype);
-    if (values.empty()) throw std::domain_error("snptest: phenotype \"" + MI::parameters::get_parameter("snptest-pheno") + "\" not found");
+    if (values.empty()) throw std::domain_error("snptest: phenotype \"" + statgen_mi::parameters::get_parameter("snptest-pheno") + "\" not found");
 
     snptest_test_trait_type(values, trait_is_01, trait_is_12, trait_is_integral);
     if (trait_is_01 || trait_is_12) {
@@ -95,7 +95,7 @@ std::string MI::snptest_write_sample_line(const MI::annotations &annot) {
   std::vector<std::string> all_covariates;
   while (strm1 >> current_covariate) {
     all_covariates.push_back(current_covariate);
-    if (annot.get(current_covariate + "_type", 0).empty() || MI::parameters::get_flag("snptest-autocorrect-traits")) {
+    if (annot.get(current_covariate + "_type", 0).empty() || statgen_mi::parameters::get_flag("snptest-autocorrect-traits")) {
       values = annot.get(current_covariate);
       if (values.empty()) throw std::domain_error("snptest: covariate \"" + current_covariate + "\" not found");
       snptest_test_trait_type(values, covar_is_01, covar_is_12, covar_is_integral);
@@ -125,7 +125,7 @@ std::string MI::snptest_write_sample_line(const MI::annotations &annot) {
   return o.str();
 }
 
-void MI::snptest_test_trait_type(std::vector<std::string> &values, bool &trait_is_01, bool &trait_is_12, bool &trait_is_integral) {
+void statgen_mi::snptest_test_trait_type(std::vector<std::string> &values, bool &trait_is_01, bool &trait_is_12, bool &trait_is_integral) {
   trait_is_01 = trait_is_12 = trait_is_integral = true;
   for (std::vector<std::string>::iterator iter = values.begin(); iter != values.end(); ++iter) {
     if (iter->compare("-9") || cicompare(*iter, "na")) {
@@ -145,19 +145,19 @@ void MI::snptest_test_trait_type(std::vector<std::string> &values, bool &trait_i
   }
 }
 
-std::string MI::snptest_format_command(std::string(*filename_generator)(unsigned, unsigned), unsigned draw) {
+std::string statgen_mi::snptest_format_command(std::string(*filename_generator)(unsigned, unsigned), unsigned draw) {
   std::string command = "";
   command += " -data " + filename_generator(0, draw) + " " + filename_generator(1, draw)
-    + " -frequentist " + MI::parameters::get_parameter("snptest-frequentist") + " -pheno "
-    + MI::parameters::get_parameter("snptest-pheno");
-  if (!MI::parameters::get_parameter("snptest-covar").empty())
+    + " -frequentist " + statgen_mi::parameters::get_parameter("snptest-frequentist") + " -pheno "
+    + statgen_mi::parameters::get_parameter("snptest-pheno");
+  if (!statgen_mi::parameters::get_parameter("snptest-covar").empty())
     command += " -cov_all";
-  command += " -method " + MI::parameters::get_parameter("snptest-method") + " -o "
+  command += " -method " + statgen_mi::parameters::get_parameter("snptest-method") + " -o "
     + filename_generator(2, draw);
   return command;
 }
 
-bool MI::snptest_process_results(const std::string &result_line,
+bool statgen_mi::snptest_process_results(const std::string &result_line,
 				 std::string &rsid,
 				 double &beta,
 				 double &stderr,

@@ -27,7 +27,7 @@
 #include <cmath>
 #include <iostream>
 
-namespace MI {
+namespace statgen_mi {
   class mi_calculator {
   public:
     mi_calculator() {}

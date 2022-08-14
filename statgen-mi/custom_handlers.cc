@@ -19,7 +19,7 @@
 
 #include "statgen-mi/custom_handlers.h"
 
-void MI::populate_imputed_data_handlers(MI::imputed_input_handler_map &target) {
+void statgen_mi::populate_imputed_data_handlers(statgen_mi::imputed_input_handler_map &target) {
   imputation_manager im;
   /////////////////////IMPUTE2//////////////////////////
   im.clear();
@@ -30,7 +30,7 @@ void MI::populate_imputed_data_handlers(MI::imputed_input_handler_map &target) {
   //////////////////////////////////////////////////////
 }
 
-void MI::populate_software_data_handlers(MI::software_input_handler_map &target) {
+void statgen_mi::populate_software_data_handlers(statgen_mi::software_input_handler_map &target) {
   program_manager pm;
   /////////////////////SNPTEST//////////////////////////
   pm.clear();
@@ -57,7 +57,7 @@ void MI::populate_software_data_handlers(MI::software_input_handler_map &target)
   pm.set_genotype_handler(emmaxkin_write_tped_line);
   pm.add_file_handler(emmaxkin_write_tfam_line);
   pm.add_file_handler(emmaxkin_write_pheno_line);
-  if (!MI::parameters::get_parameter("emmaxkin-emmax-covar-names").empty())
+  if (!statgen_mi::parameters::get_parameter("emmaxkin-emmax-covar-names").empty())
     pm.add_file_handler(emmaxkin_write_covar_line);
   pm.set_command_formatter(emmaxkin_format_command);
   pm.set_result_parser(placeholder_process_results);

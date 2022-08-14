@@ -32,7 +32,7 @@
 #include "pthread_mutex_wrapper.h"
 #endif //HAVE_PTHREAD
 
-namespace MI {
+namespace statgen_mi {
   template <class value_type>
     class parameter_annotation {
   public:

@@ -20,13 +20,13 @@
 #include "statgen-mi/custom_handlers.h"
 
 //////////////////////////////////UTILITIES/////////////////////////////////////////////
-bool MI::placeholder_process_results(const std::string &result_line,
+bool statgen_mi::placeholder_process_results(const std::string &result_line,
 				     std::string &rsid,
 				     double &beta,
 				     double &stderr,
 				     std::string &effect_allele) {
   throw std::domain_error("This program type is not designed to be run in --mi-clean mode");
 }
-std::string MI::placeholder_extra_file_remover(unsigned draw) {
+std::string statgen_mi::placeholder_extra_file_remover(unsigned draw) {
   throw std::domain_error("This program type is not designed to be run in --mi-clean mode");
 }

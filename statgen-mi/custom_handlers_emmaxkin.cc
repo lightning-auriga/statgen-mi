@@ -20,34 +20,34 @@
 #include "statgen-mi/custom_handlers.h"
 
 //////////////////////////////////EMMAXKIN//////////////////////////////////////////////
-std::string MI::emmaxkin_filename_generator(unsigned index, unsigned draw) {
+std::string statgen_mi::emmaxkin_filename_generator(unsigned index, unsigned draw) {
   switch (index) {
   case 0:
-    return MI::parameters::get_parameter("emmaxkin-tfile-prefix")
+    return statgen_mi::parameters::get_parameter("emmaxkin-tfile-prefix")
       + to_string<unsigned>(draw)
-      + MI::parameters::get_parameter("emmaxkin-tfile-suffix")
+      + statgen_mi::parameters::get_parameter("emmaxkin-tfile-suffix")
       + ".tped";
   case 1:
-    return MI::parameters::get_parameter("emmaxkin-tfile-prefix")
+    return statgen_mi::parameters::get_parameter("emmaxkin-tfile-prefix")
       + to_string<unsigned>(draw)
-      + MI::parameters::get_parameter("emmaxkin-tfile-suffix")
+      + statgen_mi::parameters::get_parameter("emmaxkin-tfile-suffix")
       + ".tfam";
   case 2:
-    return MI::parameters::get_parameter("emmaxkin-tfile-prefix")
+    return statgen_mi::parameters::get_parameter("emmaxkin-tfile-prefix")
       + to_string<unsigned>(draw)
-      + MI::parameters::get_parameter("emmaxkin-tfile-suffix")
+      + statgen_mi::parameters::get_parameter("emmaxkin-tfile-suffix")
       + ".pheno";
   case 3:
-    if (!MI::parameters::get_parameter("emmaxkin-covar-names").empty())
-      return MI::parameters::get_parameter("emmaxkin-tfile-prefix")
+    if (!statgen_mi::parameters::get_parameter("emmaxkin-covar-names").empty())
+      return statgen_mi::parameters::get_parameter("emmaxkin-tfile-prefix")
 	+ to_string<unsigned>(draw)
-	+ MI::parameters::get_parameter("emmaxkin-tfile-suffix")
+	+ statgen_mi::parameters::get_parameter("emmaxkin-tfile-suffix")
 	+ ".covar";
   default:
     throw std::domain_error("emmaxkin-filename-generator: invalid index \"" + to_string<unsigned>(index) + "\"");
   }
 }
-std::string MI::emmaxkin_write_tped_line(const MI::prob_vector &vec, const MI::annotations &annot, unsigned index) {
+std::string statgen_mi::emmaxkin_write_tped_line(const statgen_mi::prob_vector &vec, const statgen_mi::annotations &annot, unsigned index) {
   std::ostringstream o;
   double p1 = 0.0, p2 = 0.0;//, p3 = 0.0;
   unsigned res = 0;
@@ -75,7 +75,7 @@ std::string MI::emmaxkin_write_tped_line(const MI::prob_vector &vec, const MI::a
   }
   return o.str();
 }
-std::string MI::emmaxkin_write_tfam_line(const MI::annotations &annot) {
+std::string statgen_mi::emmaxkin_write_tfam_line(const statgen_mi::annotations &annot) {
   std::ostringstream o;
   std::vector<std::string> fid = annot.get("fid");
   std::vector<std::string> iid = annot.get("iid");
@@ -95,8 +95,8 @@ std::string MI::emmaxkin_write_tfam_line(const MI::annotations &annot) {
   }
   return o.str();
 }
-std::string MI::emmaxkin_write_pheno_line(const MI::annotations &annot) {
-  std::string requested_phenotype = MI::parameters::get_parameter("emmaxkin-emmax-pheno-name");
+std::string statgen_mi::emmaxkin_write_pheno_line(const statgen_mi::annotations &annot) {
+  std::string requested_phenotype = statgen_mi::parameters::get_parameter("emmaxkin-emmax-pheno-name");
   std::ostringstream o;
   for (unsigned i = 0; i < annot.get_count_at("fid"); ++i) {
     o << annot.get("fid", i) << ' ' << annot.get("iid", i) << " ";
@@ -106,8 +106,8 @@ std::string MI::emmaxkin_write_pheno_line(const MI::annotations &annot) {
   return o.str();  
 }
 
-std::string MI::emmaxkin_write_covar_line(const MI::annotations &annot) {
-  std::string requested_covariates = MI::parameters::get_parameter("emmaxkin-emmax-covar-names");
+std::string statgen_mi::emmaxkin_write_covar_line(const statgen_mi::annotations &annot) {
+  std::string requested_covariates = statgen_mi::parameters::get_parameter("emmaxkin-emmax-covar-names");
   while (requested_covariates.find(",") != std::string::npos)
     requested_covariates[requested_covariates.find(",")] = ' ';
   std::ostringstream o;
@@ -128,20 +128,20 @@ std::string MI::emmaxkin_write_covar_line(const MI::annotations &annot) {
   return o.str();  
 }
 
-std::string MI::emmaxkin_format_command(std::string(*filename_generator)(unsigned, unsigned),
+std::string statgen_mi::emmaxkin_format_command(std::string(*filename_generator)(unsigned, unsigned),
 					unsigned draw) {
   std::string command = " -v -h ";
-  if (MI::parameters::get_flag("emmaxkin-ibs") &&
-      MI::parameters::get_flag("emmaxkin-bn")) {
+  if (statgen_mi::parameters::get_flag("emmaxkin-ibs") &&
+      statgen_mi::parameters::get_flag("emmaxkin-bn")) {
     throw std::domain_error("emmaxkin-format-command: must select either IBS or BN mode");
-  } else if (MI::parameters::get_flag("emmaxkin-ibs")) {
+  } else if (statgen_mi::parameters::get_flag("emmaxkin-ibs")) {
     command += "-s ";
-  } else if (!MI::parameters::get_flag("emmaxkin-bn")) {
+  } else if (!statgen_mi::parameters::get_flag("emmaxkin-bn")) {
     throw std::domain_error("emmaxkin-format-command: neither IBS nor BN mode selected");
   }
   command += "-d 10 "
-    + MI::parameters::get_parameter("emmaxkin-tfile-prefix")
+    + statgen_mi::parameters::get_parameter("emmaxkin-tfile-prefix")
     + to_string<unsigned>(draw)
-    + MI::parameters::get_parameter("emmaxkin-tfile-suffix");
+    + statgen_mi::parameters::get_parameter("emmaxkin-tfile-suffix");
   return command;
 }

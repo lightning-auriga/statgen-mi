@@ -19,7 +19,7 @@
 
 #include "statgen-mi/prob_vector.h"
 
-void MI::prob_vector::push_back(const double &value) throw(std::bad_alloc) {
+void statgen_mi::prob_vector::push_back(const double &value) throw(std::bad_alloc) {
   //assuming 10bits fits in a single size_type
   if (size() >= floor(8.0 / static_cast<double>(_scaling) * _data.size() * sizeof(value_type)))
     _data.push_back(0);
@@ -27,7 +27,7 @@ void MI::prob_vector::push_back(const double &value) throw(std::bad_alloc) {
   set(size()-1, value);
 }
 
-void MI::prob_vector::set(const prob_vector::size_type &index, const double &value) throw(std::domain_error) {
+void statgen_mi::prob_vector::set(const prob_vector::size_type &index, const double &value) throw(std::domain_error) {
   if (index >= size()) throw std::domain_error("prob_vector set: index out of range");
   value_type converted = static_cast<value_type>(boost::math::lround<double>(1000.0 * value));
   if (converted < 0 || converted > (_max_prec-1)) converted = _max_prec - 1;
@@ -48,7 +48,7 @@ void MI::prob_vector::set(const prob_vector::size_type &index, const double &val
   }
 }
 
-double MI::prob_vector::at(const prob_vector::size_type &index) const throw(std::domain_error) {
+double statgen_mi::prob_vector::at(const prob_vector::size_type &index) const throw(std::domain_error) {
   if (index >= size()) throw std::domain_error("prob_vector at: index out of range");
   value_type converted = (1 << _scaling) - 1;
   size_type x = (_scaling * index) % (sizeof(value_type) << 3);
