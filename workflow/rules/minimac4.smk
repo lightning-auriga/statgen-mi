@@ -5,7 +5,7 @@ rule draw_from_minimac4:
     input:
         lambda wildcards: config["imputed_datasets"][wildcards.dataset]["filename"],
     output:
-        "results/{analysis}/{dataset}/{tool}/{model}/mi_runs/{runnum}/data.vcf",
+        temp("results/{analysis}/{dataset}/{tool}/{model}/mi_runs/{runnum}/data.vcf"),
     params:
         input_format="minimac4",
         output_format="vcf",
