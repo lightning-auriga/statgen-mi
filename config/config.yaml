@@ -22,6 +22,14 @@ regression_models:
       - "covar3"
     model: "linear"
     vif: 1000
+  model2:
+    filename: "examples/phenotype_data.tsv"
+    phenotype: "binary"
+    covariates:
+      - "covar1"
+      - "covar3"
+    model: "logistic"
+    vif: 500
 queue:
   small_partition: "spotshort"
   large_partition: "big"
