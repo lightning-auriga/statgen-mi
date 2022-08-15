@@ -110,6 +110,9 @@ def run_combine_analysis_output(snakemake):
     model_name = snakemake.params["model"]
 
     with ExitStack() as stack, open(output_filename, "w") as out:
+        out.writelines(
+            "varid\teffect_allele\teffect\twithin_variance\tbetween_variance\ttotal_variance\tdof\ttstat\n"
+        )
         files = [
             stack.enter_context(open(filename, "r")) for filename in input_filenames
         ]
