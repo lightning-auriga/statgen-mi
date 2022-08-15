@@ -30,6 +30,7 @@ rule run_plink2_linear_regression:
     """
     input:
         vcf="results/{analysis}/{dataset}/{tool}/{model}/mi_runs/{runnum}/data.vcf.gz",
+        tbi="results/{analysis}/{dataset}/{tool}/{model}/mi_runs/{runnum}/data.vcf.gz.tbi",
         pheno="results/{analysis}/{dataset}/{tool}/{model}/{pheno_name}.pheno",
     output:
         filename="results/{analysis}/{dataset}/{tool}/{model}/mi_runs/{runnum}/results.{pheno_name}.glm.linear",
