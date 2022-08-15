@@ -17,8 +17,9 @@ def format_mi_result(varid, effect_allele, sample_size, betas, variances, mi_run
         ) / len(betas)
         # set test statistic defaults assuming invariant draws, as will
         # happen for perfect confidence genotypes
+        total_variance = within_variance
         dof_adj = 1
-        tstat = overall_beta / math.sqrt(within_variance)
+        tstat = overall_beta / math.sqrt(total_variance)
         if not math.isclose(between_variance, 0):
             total_variance = (
                 within_variance + (len(betas) + 1) / len(betas) * between_variance
