@@ -3,7 +3,9 @@ import re
 from contextlib import ExitStack
 
 
-def format_mi_result(varid, effect_allele, sample_size, betas, variances, mi_run_count):
+def format_mi_result(
+    varid, effect_allele, other_allele, sample_size, betas, variances, mi_run_count
+):
     """
     given parsed information from multiple association runs,
     combine and return MI results
@@ -36,19 +38,24 @@ def format_mi_result(varid, effect_allele, sample_size, betas, variances, mi_run
             )
             dof_adj = dof_old * dof_obs / (dof_old + dof_obs)
             tstat = overall_beta / math.sqrt(total_variance)
-        return "{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\n".format(
-            varid,
-            effect_allele,
-            round(overall_beta, output_float_dec),
-            round(within_variance, output_float_dec),
-            round(between_variance, output_float_dec),
-            round(total_variance, output_float_dec),
-            round(dof_adj, output_float_dec),
-            round(tstat, output_float_dec),
+        return "{}\n".format(
+            "\t".join(
+                [
+                    varid,
+                    effect_allele,
+                    other_allele,
+                    str(round(overall_beta, output_float_dec)),
+                    str(round(within_variance, output_float_dec)),
+                    str(round(between_variance, output_float_dec)),
+                    str(round(total_variance, output_float_dec)),
+                    str(round(dof_adj, output_float_dec)),
+                    str(round(tstat, output_float_dec)),
+                ]
+            )
         )
     # for the time being, enforce all simulations converge. if they don't,
     # treat the result as not converged
-    return "{}\t{}\tNA\tNA\tNA\tNA\tNA\n".format(varid, effect_allele)
+    return "{}\t{}\t{}\tNA\tNA\tNA\tNA\tNA\n".format(varid, effect_allele, other_allele)
 
 
 def plink2_handler(lines, model_name):
@@ -56,19 +63,21 @@ def plink2_handler(lines, model_name):
     handle MI combination for results from plink2 glm
     """
     varid = ""
-    effect_allele = ""
+    ref_allele = ""
+    alt_allele = ""
+    effect_allele = None
     sample_size = 0
     betas = []
     variances = []
     pattern = None
     if model_name == "glm.linear":
         pattern = re.compile(
-            "[^\t]+\t[^\t]+\t([^\t]+)\t[^\t]+\t[^\t]+\t([^\t]+)\t[^\t]+\t"
+            "[^\t]+\t[^\t]+\t([^\t]+)\t([^\t]+)\t([^\t]+)\t([^\t]+)\t[^\t]+\t"
             "[^\t]+\t[^\t]+\t([^\t]+)\t([^\t]+)\t([^\t]+)\t"
         )
     elif model_name == "glm.logistic.hybrid":
         pattern = re.compile(
-            "[^\t]+\t[^\t]+\t([^\t]+)\t[^\t]+\t[^\t]+\t([^\t]+)\t[^\t]+\t"
+            "[^\t]+\t[^\t]+\t([^\t]+)\t([^\t]+)\t([^\t]+)\t([^\t]+)\t[^\t]+\t"
             "[^\t]+\t[^\t]+\t[^\t]+\t[^\t]+\t[^\t]+\t[^\t]+\t([^\t]+)\t"
             "([^\t]+)\t([^\t]+)\t"
         )
@@ -82,14 +91,20 @@ def plink2_handler(lines, model_name):
         match = pattern.match(line)
         if match:
             varid = match.group(1)
-            effect_allele = match.group(2)
-            if match.group(5) != "NA":
-                sample_size = int(match.group(3))
+            ref_allele = match.group(2)
+            alt_allele = match.group(3)
+            flip_sign = 1
+            if effect_allele is None:
+                effect_allele = match.group(4)
+            elif effect_allele != match.group(4):
+                flip_sign = -1
+            if match.group(7) != "NA":
+                sample_size = int(match.group(5))
                 if model_name == "logistic":
-                    betas.append(math.log(float(match.group(4))))
+                    betas.append(flip_sign * math.log(float(match.group(6))))
                 else:
-                    betas.append(float(match.group(4)))
-                variances.append(pow(float(match.group(5)), 2))
+                    betas.append(flip_sign * float(match.group(6)))
+                variances.append(pow(float(match.group(7)), 2))
         else:
             raise ValueError(
                 "plink2 regression result does not match expected format: {}".format(
@@ -97,7 +112,13 @@ def plink2_handler(lines, model_name):
                 )
             )
     return format_mi_result(
-        varid, effect_allele, sample_size, betas, variances, len(lines)
+        varid,
+        effect_allele,
+        ref_allele if ref_allele != effect_allele else alt_allele,
+        sample_size,
+        betas,
+        variances,
+        len(lines),
     )
 
 
@@ -113,7 +134,7 @@ def run_combine_analysis_output(snakemake):
 
     with ExitStack() as stack, open(output_filename, "w") as out:
         out.writelines(
-            "varid\teffect_allele\teffect\twithin_variance\tbetween_variance\ttotal_variance\tdof\ttstat\n"
+            "varid\teffect_allele\tother_allele\teffect\twithin_variance\tbetween_variance\ttotal_variance\tdof\ttstat\n"
         )
         files = [
             stack.enter_context(open(filename, "r")) for filename in input_filenames
