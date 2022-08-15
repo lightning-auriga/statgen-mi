@@ -4,116 +4,124 @@
 
 multiple imputation for association studies
 
-## Overview
+## Authors
 
-This README is an automated stub generated from a `cookiecutter` template.
-Documentation below reflects the state of the templated project immediately
-after creation and may not reflect the current state of the project after
-development updates.
+* Lightning Auriga (@lightning-auriga)
 
-## Requirements
-
-  - g++ >= 8.2.0
-  - automake/autoconf
-  - make >= 4.2
-  - git >= 2.28.0
-  - nodejs (for commitizen)
-  - pre-commit
-  - associated linting tools for C++: cppcheck, clang-format
-  - [boost headers](https://www.boost.org)
-  - [boost program_options](https://www.boost.org/doc/libs/1_75_0/doc/html/program_options.html)
-  - [boost filesystem/system](https://www.boost.org/doc/libs/1_75_0/libs/filesystem/doc/index.htm)
-  - [boost iostreams](https://www.boost.org/doc/libs/1_74_0/libs/iostreams/doc/index.html)
-  - [yaml-cpp](https://github.com/jbeder/yaml-cpp)
-
-## Build
-
-By default, a build process involving a [conda](https://docs.conda.io/en/latest/) environment is supported.
-
-  - if you wish to use `conda` and it's not currently available, you can install it with the instructions [here](https://docs.conda.io/en/latest/miniconda.html)
-  - navigate into your project directory (statgen-mi)
-  - create the `conda` environment for installation as follows:
-  
-     `conda env create -f environment.yaml`
-  - activate the conda environment:
-  
-     `conda activate statgen-mi-env`
-  - (one time only per environment) install `commitizen`:
-  
-     `npm install -g commitizen cz-conventional-changelog`
-  - (one time only per environment) install `pre-commit` linters:
-  
-     `pre-commit install`
-
-  - update (create) the necessary `configure` scripts with `autoreconf`:
-  
-     `autoreconf --force --install`
-	 
-     - note that this can also be run with `./generate.bash` inside the repo
-  - run `configure`:
-  
-	 `./configure --with-boost=/path/to/miniconda3/envs/statgen-mi-env --with-boost-libdir=/path/to/miniconda3/envs/statgen-mi-env/lib`
-
-	 - if you are planning on installing software to a local directory, run instead `./configure --prefix=/install/dir [...]`
-	 - periodically there are some incompatibility issues between `configure` and `conda`. if so, you may need to override
-	   some default locations detected by `configure`. for example, you might override the detected compiler with:
-	   `CC=gcc CXX=g++ ./configure [...]`
-  - run `make CPPFLAGS=""`
-	 - this is a non-standard `make` invocation. the reason this is included is because the project
-	   is configured to specifically use a `boost` installation in the accompanying `conda` environment.
-	   if you'd rather remove `boost` from the conda environment, or ignore it in favor of a system-wide
-	   `boost` installation, you can adjust the appropriate `configure` parameters accordingly
-	   and instead invoke `make` without any further variable overrides
-  - run `make check` to run any `TAP/automake` tests, or the placeholder
-     - if you run this command without compiling first, you will again need to override `CPPFLAGS`
-	   as follows: `make CPPFLAGS="" check`
-
-  - if desired, run `make install`. if permissions issues are reported, see above for reconfiguring with `./configure --prefix`.
-     - as above, if you run installation without compiling first, you will again need to override `CPPFLAGS`
-	   as follows: `make CPPFLAGS="" check`
-  
 ## Usage
 
-By default, the final compiled program can be run with
+If you use this workflow in a paper, don't forget to give credits to the authors by citing the URL of this (original) repository and, if available, its DOI (see above).
 
-`./statgen-mi.out`
+### Step 1: Obtain a copy of this workflow
+
+1. Clone this repository to your local system, into the place where you want to perform the data analysis.
+```
+    git clone https://github.com/lightning-auriga/statgen-mi.git
+```
+
+### Step 2: Configure workflow
+
+Configure the workflow according to your needs via editing the files in the `config/` folder. Adjust `config.yaml` to configure the workflow execution, and `manifest.tsv` to specify your sample setup.
+
+#### Configuration settings
+
+The following settings are available in primary user configuration under `config/config.yaml`:
+
+- `manifest`: location of primary run manifest file; defaults to `config/manifest.tsv`
+- `tools`: **configuration options for association tools supported by the workflow**
+  - `plink2`: **configuration options specific to plink2 --glm methods**
+    - `executable`: command to launch plink2. if using conda, this should remain default `plink2`
+	- `maxthreads`: maximum number of threads to deploy in a plink2 task
+	- `maxmem`: maximum RAM (in MB) supplied to a plink2 task
+	- `mi_draws`: number of multiple imputation simulated sets to run for plink2 MI runs
+- `imputed_datasets`: **user-defined sets of imputed data that can be selected for analysis**
+  - each tag under `imputed_datasets` should be unique, and can be used to refer to the dataset in the manifest
+  - each tag should contain under it:
+    - `type`: descriptor of imputed file type. currently the only accepted value is `minimac4`
+	- `filename`: full path to and name of imputed data file. for minimac4: the dose.vcf.gz file
+- `regression_models`: **user-defined sets of phenotypes and covariates that can be selected for analysis**
+  - each tag under `regression_models` should be unique, and can be used to refer to the model in the manifest
+  - each tag should contain under it:
+    - `filename`: full path to and name of plink-format phenotype file containing any relevant variables. other variables can also be present
+	- `phenotype`: primary outcome for this regression model, as the corresponding header entry in the phenotype file
+	- `covariates`: (optional) list of covariates for this regression model, as the corresponding header entry or entries in the phenotype file
+	- `model`: descriptor of association type. currently recognized options are `linear` or `logistic`
+	- `vif`: (optional) for tools that support this, primarily plink: variance inflation factor cap above which a model is suppressed
+- `queue`: **user-defined configuration data for compute queue**
+  - `small_partition`: slurm partition (or equivalent for other cluster profiles) for jobs with the following restrictions:
+    - max RAM will never exceed 3500M
+	- max time will be less than 10 minutes
+    - this is exposed to save money, but can just be set to the same value as the below partition if desired
+  - `large_partition`: slurm partition (or equivalent for other cluster profiles) for jobs using maximum per-tool analysis settings, with the following additional restrictions:
+    - at least 8000M RAM should be available for a task
+	- jobs on the partition should be permitted to run at least four hours before being killed
+
+#### Run manifest
+
+Each desired MI run should be configured in a row of the run manifest, by default at `config/manifest.tsv`. The following entries are required for each run:
+
+- `analysis`: unique identifier for this particular run
+- `imputed_dataset`: tag for desired imputed dataset to use, as enumerated in `config/config.yaml`
+- `tool`: supported association tool for analysis
+- `regression_model`: tag for desired regression model to use, as enumerated in `config/config.yaml`
+
+
+### Step 3: Install Snakemake
+
+Install Snakemake using [conda](https://conda.io/projects/conda/en/latest/user-guide/install/index.html):
+
+    conda create -c bioconda -c conda-forge -n snakemake snakemake
+
+For installation details, see the [instructions in the Snakemake documentation](https://snakemake.readthedocs.io/en/stable/getting_started/installation.html).
+
+### Step 4: Execute workflow
+
+Activate the conda environment:
+
+    conda activate snakemake
+
+Test your configuration by performing a dry-run via
+
+    snakemake --use-conda -n
+
+Execute the workflow locally via
+
+    snakemake --use-conda --cores $N
+
+using `$N` cores or run it in a cluster environment via
+
+    snakemake --use-conda --profile /path/to/slurm-profile --jobs 100
+
+See the [Snakemake documentation](https://snakemake.readthedocs.io/en/stable/executable.html) for further details.
+
+### Step 5: Investigate results
+
+More information will be added here as it becomes available. For now, draft results are populated under `results/{analysis}/{imputed_dataset}/{tool}/{regression_model}`
+
+### Step 6: Commit changes
+
+Whenever you change something, don't forget to commit the changes back to your github copy of the repository:
+
+    git commit -a
+    git push
+
+
+## Testing
+
+Testing will be added for embedded snakemake python scripts shortly, with pytest. `snakemake_unit_tests` integration TBD.
 
 ## Version History
 
-14 08 2022: project generated from cookiecutter template
+14 08 2022: complete rework.
+- major revisions:
+  - prior program is completely deprecated.
+  - revisions to feature set:
+    - snptest2 integration is temporarily removed
+	- plink integration is updated to plink2 --glm
+	- impute2 integration is (possibly permanently) removed
+	- minimac4 integration added
+  - configuration now under `config/` as described in readme.
+  - dependencies now managed with conda.
+  - obviously, now it's a snakemake workflow and not a random c++ program.
 
-15 11 2015:
-
-- major:
-  - Added plink support, linear and logistic traits. PLINK is available [here](http://pngu.mgh.harvard.edu/~purcell/plink/download.shtml)
-  - updated example.sh to contain a PLINK-style run type
-- minor:
-  - fileinterface reconcile_writer now correctly handles .bed{,.gz,.bz2} extensions in filenames
-
-15 11 15 (original release):
-
-Many bugs no doubt exist in this BETA release.  Please send
-descriptions of bugs, with sample code invocation as appropriate,
-to <cdp2130@cumc.columbia.edu>
-
-This software requires the boost C++ headers.
-Currently, the minimum boost version required is 1.46.1
-
-zlib and libbz2 are highly recommended but not strictly required. If included
-through ./configure, this will enable files processed by statgen-mi
-(primarily imputation genotype files and final result file) to be compressed,
-as long as the filenames terminate in ".gz" or ".bz2"
-
-Although this software is designed to interface with other statgen software,
-for licensing reasons those software packages are not included with
-this release. Currently, statgen-mi is configured to operate with
-[IMPUTE2](https://mathgen.stats.ox.ac.uk/impute/impute_v2.html#download)
-imputed genotype probabilities and
-[SNPTEST2](https://mathgen.stats.ox.ac.uk/genetics_software/snptest/snptest.html)
-frequentist analysis tests. statgen-mi needs direct access to the analysis software
-(SNPTEST2), so update the --mi-program-config file accordingly
-(see examples/mi.program.config for an example configuration).
-
-More information to come as this software approaches maturation.
-See examples/example.sh for a test run configuration. Also
-./statgen-mi.out --help lists many available options and descriptions.
+15 11 2015: original deprecated release.
