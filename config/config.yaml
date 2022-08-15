@@ -1,0 +1,27 @@
+manifest: "config/manifest.tsv"
+tools:
+  plink2:
+    executable: "plink2"
+    maxthreads: 2
+    maxmem: 8000
+    mi_draws: 5
+imputed_datasets:
+  dataset1:
+    type: impute2
+    filename: "Name of IMPUTE2 gen file to be processed"
+  dataset2:
+    type: minimac4
+    filename: "examples/chr22.dose.vcf.gz"
+regression_models:
+  model1:
+    filename: "examples/phenotype_data.tsv"
+    phenotype: "pheno"
+    covariates:
+      - "covar1"
+      - "covar2"
+      - "covar3"
+    model: "linear"
+    vif: 1000
+queue:
+  small_partition: "spotshort"
+  large_partition: "big"

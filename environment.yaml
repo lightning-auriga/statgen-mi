@@ -1,0 +1,6 @@
+name: statgen-mi-env
+channels:
+  - bioconda
+  - conda-forge
+dependencies:
+  - snakemake

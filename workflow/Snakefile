@@ -1,0 +1,69 @@
+import pandas as pd
+from snakemake.utils import validate
+
+
+configfile: "config/config.yaml"
+
+
+validate(config, schema="../schema/config.schema.yaml")
+
+manifest = pd.read_table(config["manifest"], sep="\t").set_index("analysis", drop=False)
+
+
+def link_tool_to_suffix(toolnames, modelnames, config):
+    """
+    allow tool specific suffixes based on tool/model,
+    thanks plink
+    """
+    res = []
+    for (tool, model) in zip(toolnames, modelnames):
+        if tool == "plink2":
+            if model in config["regression_models"]:
+                model_tag = config["regression_models"][model]["model"]
+                if model_tag == "linear":
+                    res.append("glm.linear")
+                elif model_tag == "logistic":
+                    res.append("glm.logistic.hybrid")
+                else:
+                    raise ValueError(
+                        "plink2 model not recognized: {}".format(model_tag)
+                    )
+            else:
+                raise ValueError(
+                    "unconfigured regression model requested: {}".format(model)
+                )
+        else:
+            raise ValueError("analysis tool not recognized: {}".format(tool))
+    return res
+
+
+TARGETS = [
+    "results/{}/{}/{}/{}/{}.{}.tsv".format(
+        analysis, imputed_dataset, tool, regression_model, pheno_name, suffix
+    )
+    for (analysis, imputed_dataset, tool, regression_model, pheno_name, suffix) in zip(
+        manifest["analysis"],
+        manifest["imputed_dataset"],
+        manifest["tool"],
+        manifest["regression_model"],
+        [
+            config["regression_models"][modname]["phenotype"]
+            for modname in manifest["regression_model"]
+        ],
+        link_tool_to_suffix(manifest["tool"], manifest["regression_model"], config),
+    )
+]
+
+
+rule all:
+    """
+    phony target to deploy all jobs
+    """
+    input:
+        TARGETS,
+
+
+include: "rules/common.smk"
+include: "rules/minimac4.smk"
+include: "rules/phenotypes.smk"
+include: "rules/plink2.smk"
