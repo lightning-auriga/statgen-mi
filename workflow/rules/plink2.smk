@@ -37,6 +37,7 @@ rule run_plink2_linear_regression:
     conda:
         "../envs/plink2.yaml"
     params:
+        plink2_exec=config["tools"]["plink2"]["executable"],
         plink2_memlimit=config["tools"]["plink2"]["maxmem"],
         plink2_outprefix="results/{analysis}/{dataset}/{tool}/{model}/mi_runs/{runnum}/results",
         plink2_cols="chrom,pos,ref,alt,a1freq,a1count,test,nobs,orbeta,se,p",
@@ -53,7 +54,7 @@ rule run_plink2_linear_regression:
         mem_mb=str(config["tools"]["plink2"]["maxmem"]) + "M",
         partition=config["queue"]["large_partition"],
     shell:
-        "plink2 --memory {params.plink2_memlimit} --threads {threads} "
+        "{params.plink2_exec} --memory {params.plink2_memlimit} --threads {threads} "
         "--vcf {input.vcf} --double-id "
         "--glm hide-covar cols={params.plink2_cols} {params.plink2_regression_modifiers} "
         "--pheno {input.pheno} {params.phenos} {params.covars} "
@@ -67,7 +68,8 @@ use rule run_plink2_linear_regression as run_plink2_logistic_regression with:
             "results/{analysis}/{dataset}/{tool}/{model}/mi_runs/{runnum}/results.{pheno_name}.log"
         ),
     params:
-        memlimit=config["tools"]["plink2"]["maxmem"] / 4,
+        plink2_exec=config["tools"]["plink2"]["executable"],
+        plink2_memlimit=config["tools"]["plink2"]["maxmem"] / 4,
         plink2_outprefix="results/{analysis}/{dataset}/{tool}/{model}/mi_runs/{runnum}/results",
         plink2_cols="chrom,pos,ref,alt,a1freq,a1freqcc,a1count,a1countcc,test,nobs,orbeta,se,p",
         plink2_regression_modifiers="--1",
