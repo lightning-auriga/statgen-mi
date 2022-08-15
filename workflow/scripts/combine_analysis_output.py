@@ -61,12 +61,12 @@ def plink2_handler(lines, model_name):
     betas = []
     variances = []
     pattern = None
-    if model_name == "linear":
+    if model_name == "glm.linear":
         pattern = re.compile(
             "[^\t]+\t[^\t]+\t([^\t]+)\t[^\t]+\t[^\t]+\t([^\t]+)\t[^\t]+\t"
             "[^\t]+\t[^\t]+\t([^\t]+)\t([^\t]+)\t([^\t]+)\t"
         )
-    elif model_name == "logistic":
+    elif model_name == "glm.logistic.hybrid":
         pattern = re.compile(
             "[^\t]+\t[^\t]+\t([^\t]+)\t[^\t]+\t[^\t]+\t([^\t]+)\t[^\t]+\t"
             "[^\t]+\t[^\t]+\t[^\t]+\t([^\t]+)\t[^\t]+\t[^\t]+\t([^\t]+)\t"
