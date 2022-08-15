@@ -13,6 +13,8 @@ rule multiple_imputation_plink2:
     params:
         tool=lambda wildcards: wildcards.tool,
         model=lambda wildcards: wildcards.suffix,
+    wildcard_constraints:
+        suffix="glm.linear|glm.logistic.hybrid",
     threads: 1
     resources:
         time="1:00:00",
