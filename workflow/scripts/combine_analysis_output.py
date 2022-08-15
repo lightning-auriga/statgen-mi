@@ -8,6 +8,7 @@ def format_mi_result(varid, effect_allele, sample_size, betas, variances, mi_run
     given parsed information from multiple association runs,
     combine and return MI results
     """
+    output_float_dec = 6
     if len(betas) == mi_run_count:
         overall_beta = sum(betas) / len(betas)
         within_variance = sum(variances) / len(variances)
@@ -37,12 +38,12 @@ def format_mi_result(varid, effect_allele, sample_size, betas, variances, mi_run
         return "{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\n".format(
             varid,
             effect_allele,
-            overall_beta,
-            within_variance,
-            between_variance,
-            total_variance,
-            dof_adj,
-            tstat,
+            round(overall_beta, output_float_dec),
+            round(within_variance, output_float_dec),
+            round(between_variance, output_float_dec),
+            round(total_variance, output_float_dec),
+            round(dof_adj, output_float_dec),
+            round(tstat, output_float_dec),
         )
     # for the time being, enforce all simulations converge. if they don't,
     # treat the result as not converged
