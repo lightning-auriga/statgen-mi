@@ -69,7 +69,7 @@ def plink2_handler(lines, model_name):
     elif model_name == "glm.logistic.hybrid":
         pattern = re.compile(
             "[^\t]+\t[^\t]+\t([^\t]+)\t[^\t]+\t[^\t]+\t([^\t]+)\t[^\t]+\t"
-            "[^\t]+\t[^\t]+\t[^\t]+\t([^\t]+)\t[^\t]+\t[^\t]+\t([^\t]+)\t"
+            "[^\t]+\t[^\t]+\t[^\t]+\t[^\t]+\t[^\t]+\t[^\t]+\t([^\t]+)\t"
             "([^\t]+)\t([^\t]+)\t"
         )
     else:
