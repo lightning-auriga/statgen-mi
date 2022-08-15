@@ -1,2 +1,3 @@
 analysis	imputed_dataset	tool	regression_model
 testanalysis	dataset2	plink2	model1
+testbinary	dataset2	plink2	model2
