@@ -1,3 +1,34 @@
+rule combine_multiple_imputation:
+    """
+    for imputed datasets with multiple input files,
+    merge results files into a single file; or just
+    copy the file over really
+    """
+    input:
+        lambda wildcards: expand(
+            "results/{{analysis}}/{{dataset}}/{{tool}}/{{model}}/{filecode}/{{pheno_name}}.{{suffix}}.tsv",
+            filecode=[
+                i
+                for i in range(
+                    len(config["imputed_datasets"][wildcards.dataset]["filename"])
+                )
+            ]
+            if isinstance(
+                config["imputed_datasets"][wildcards.dataset]["filename"], list
+            )
+            else 0,
+        ),
+    output:
+        "results/{analysis}/{dataset}/{tool}/{model}/{pheno_name}.{suffix}.tsv",
+    threads: 1
+    resources:
+        time="1:00:00",
+        mem_mb="1000M",
+        partition=config["queue"]["small_partition"],
+    shell:
+        "cat {input} | awk 'NR == 1 || ! /effect_allele/' > {output}"
+
+
 rule multiple_imputation_plink2:
     """
     combine the results of plink2 analysis based on
@@ -5,11 +36,11 @@ rule multiple_imputation_plink2:
     """
     input:
         lambda wildcards: expand(
-            "results/{{analysis}}/{{dataset}}/{{tool}}/{{model}}/mi_runs/{runnum}/results.{{pheno_name}}.{{suffix}}",
+            "results/{{analysis}}/{{dataset}}/{{tool}}/{{model}}/{{filecode}}/mi_runs/{runnum}/results.{{pheno_name}}.{{suffix}}",
             runnum=[i + 1 for i in range(config["tools"][wildcards.tool]["mi_draws"])],
         ),
     output:
-        "results/{analysis}/{dataset}/{tool}/{model}/{pheno_name}.{suffix}.tsv",
+        "results/{analysis}/{dataset}/{tool}/{model}/{filecode}/{pheno_name}.{suffix}.tsv",
     params:
         tool=lambda wildcards: wildcards.tool,
         model=lambda wildcards: wildcards.suffix,
@@ -29,20 +60,20 @@ rule run_plink2_linear_regression:
     deploy plink2 linear regression for drawn data
     """
     input:
-        vcf="results/{analysis}/{dataset}/{tool}/{model}/mi_runs/{runnum}/data.vcf.gz",
-        tbi="results/{analysis}/{dataset}/{tool}/{model}/mi_runs/{runnum}/data.vcf.gz.tbi",
+        vcf="results/{analysis}/{dataset}/{tool}/{model}/{filecode}/mi_runs/{runnum}/data.vcf.gz",
+        tbi="results/{analysis}/{dataset}/{tool}/{model}/{filecode}/mi_runs/{runnum}/data.vcf.gz.tbi",
         pheno="results/{analysis}/{dataset}/{tool}/{model}/{pheno_name}.pheno",
     output:
-        filename="results/{analysis}/{dataset}/{tool}/{model}/mi_runs/{runnum}/results.{pheno_name}.glm.linear",
+        filename="results/{analysis}/{dataset}/{tool}/{model}/{filecode}/mi_runs/{runnum}/results.{pheno_name}.glm.linear",
         log=temp(
-            "results/{analysis}/{dataset}/{tool}/{model}/mi_runs/{runnum}/results.{pheno_name}.log"
+            "results/{analysis}/{dataset}/{tool}/{model}/{filecode}/mi_runs/{runnum}/results.{pheno_name}.log"
         ),
     conda:
         "../envs/plink2.yaml"
     params:
         plink2_exec=config["tools"]["plink2"]["executable"],
         plink2_memlimit=config["tools"]["plink2"]["maxmem"],
-        plink2_outprefix="results/{analysis}/{dataset}/{tool}/{model}/mi_runs/{runnum}/results",
+        plink2_outprefix="results/{analysis}/{dataset}/{tool}/{model}/{filecode}/mi_runs/{runnum}/results",
         plink2_cols="chrom,pos,ref,alt,a1freq,a1count,test,nobs,orbeta,se,p",
         plink2_regression_modifiers="",
         phenos=lambda wildcards: " --pheno-name {} ".format(wildcards.pheno_name),
@@ -66,14 +97,14 @@ rule run_plink2_linear_regression:
 
 use rule run_plink2_linear_regression as run_plink2_logistic_regression with:
     output:
-        filename="results/{analysis}/{dataset}/{tool}/{model}/mi_runs/{runnum}/results.{pheno_name}.glm.logistic.hybrid",
+        filename="results/{analysis}/{dataset}/{tool}/{model}/{filecode}/mi_runs/{runnum}/results.{pheno_name}.glm.logistic.hybrid",
         log=temp(
-            "results/{analysis}/{dataset}/{tool}/{model}/mi_runs/{runnum}/results.{pheno_name}.log"
+            "results/{analysis}/{dataset}/{tool}/{model}/{filecode}/mi_runs/{runnum}/results.{pheno_name}.log"
         ),
     params:
         plink2_exec=config["tools"]["plink2"]["executable"],
         plink2_memlimit=config["tools"]["plink2"]["maxmem"] / 4,
-        plink2_outprefix="results/{analysis}/{dataset}/{tool}/{model}/mi_runs/{runnum}/results",
+        plink2_outprefix="results/{analysis}/{dataset}/{tool}/{model}/{filecode}/mi_runs/{runnum}/results",
         plink2_cols="chrom,pos,ref,alt,a1freq,a1freqcc,a1count,a1countcc,test,nobs,orbeta,se,p",
         plink2_regression_modifiers="--1",
         phenos=lambda wildcards: " --pheno-name {} ".format(wildcards.pheno_name),
