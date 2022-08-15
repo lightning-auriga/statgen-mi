@@ -77,5 +77,5 @@ use rule run_plink2_linear_regression as run_plink2_logistic_regression with:
         covars=lambda wildcards: " --covar-name {} ".format(
             " ".join(config["regression_models"][wildcards.model]["covariates"])
         )
-        if covariates in config["regression_models"][wildcards.model]
+        if "covariates" in config["regression_models"][wildcards.model]
         else "",
