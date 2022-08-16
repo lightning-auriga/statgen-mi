@@ -12,6 +12,8 @@ def run_construct_trait_file(snakemake):
     output_filename = snakemake.output[0]
     phenotype = snakemake.params["phenotype"]
     covariates = snakemake.params["covariates"]
+    if not isinstance(covariates, list) and covariates is not None:
+        covariates = [covariates]
     data = pd.read_table(input_filename, sep="\t")
     if phenotype not in data.columns:
         raise ValueError("requested phenotype not present in model file")
