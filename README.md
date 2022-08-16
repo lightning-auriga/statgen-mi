@@ -1,5 +1,9 @@
 # statgen-mi
 
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/cpalmer718/statgen-mi/tree/default.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/cpalmer718/statgen-mi/tree/default)
+
+[![codecov](https://codecov.io/gh/cpalmer718/statgen-mi/branch/default/graph/badge.svg?token=YTKRACNUAN)](https://codecov.io/gh/cpalmer718/statgen-mi)
+
 ## Brief Summary
 
 multiple imputation for association studies
