@@ -154,3 +154,27 @@ def test_construct_trait_file(snakemake_object, phenotype_df):
     observed = pd.read_table(snakemake_object.output[0], sep="\t")
     expected = phenotype_df
     assert_frame_equal(observed, expected)
+
+
+def test_missing_variables(snakemake_object, snakemake_params_invalid_content):
+    """
+    Expect that invalid params statement, either phenotype name or
+    covariate name, leads to ValueError
+    """
+    smk = snakemake_object
+    smk.params = snakemake_params_invalid_content
+    with pytest.raises(ValueError):
+        runpy.run_path(
+            "workflow/scripts/construct_trait_file.py", init_globals={"snakemake": smk}
+        )
+
+
+def test_script_insulation():
+    """
+    Expect that embedded script exits gracefully and without
+    error if no snakemake object is defined
+    """
+    try:
+        runpy.run_path("workflow/scripts/construct_trait_file.py")
+    except Exception:
+        pytest.fail("evaluation of script with no snakemake object failed")
