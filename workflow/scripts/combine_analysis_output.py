@@ -27,7 +27,7 @@ def format_mi_result(
                 within_variance + (len(betas) + 1) / len(betas) * between_variance
             )
             fraction_total_missing = (
-                between_variance * (len(betas) + 1 / len(betas))
+                between_variance * (1 + 1 / len(betas))
             ) / total_variance
             dof_old = (len(betas) - 1) / pow(fraction_total_missing, 2)
             dof_obs = (
@@ -100,7 +100,7 @@ def plink2_handler(lines, model_name):
                 flip_sign = -1
             if match.group(7) != "NA":
                 sample_size = int(match.group(5))
-                if model_name == "logistic":
+                if model_name == "glm.logistic.hybrid":
                     betas.append(flip_sign * math.log(float(match.group(6))))
                 else:
                     betas.append(flip_sign * float(match.group(6)))
