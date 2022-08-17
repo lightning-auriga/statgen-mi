@@ -32,7 +32,7 @@ jobs:
               fi
             fi
             unset __conda_setup
-            mamba install -c conda-forge -y curl gnupg pytest-cov
+            mamba install -c conda-forge -y curl gnupg pytest-cov pytest-lazy-fixture
             pytest --cov=workflow/scripts workflow/scripts
             curl -Os https://uploader.codecov.io/latest/linux/codecov
             chmod +x codecov
