@@ -8,6 +8,17 @@ properties:
   tools:
     type: object
     properties:
+      bcftools:
+        type: object
+        properties:
+          executable:
+            type: string
+          plugin_path:
+            type: string
+        required:
+          - executable
+          - plugin_path
+        additionalProperties: no
       plink2:
         type: object
         properties:
@@ -25,6 +36,10 @@ properties:
           - maxmem
           - mi_draws
         additionalProperties: no
+    required:
+      - plink2
+      - bcftools
+    additionalProperties: no
   imputed_datasets:
     type: object
     patternProperties:
