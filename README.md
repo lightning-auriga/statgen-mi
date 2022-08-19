@@ -33,6 +33,15 @@ The following settings are available in primary user configuration under `config
 
 - `manifest`: location of primary run manifest file; defaults to `config/manifest.tsv`
 - `tools`: **configuration options for association tools supported by the workflow**
+  - `bcftools`: **configuration options specific to bcftools**
+    - `executable`: command to launch bcftools (see note below)
+	- `plugin_path`: path to plugin libraries for this version of bcftools
+	- note: this workflow uses `bcftools +setGT` to randomize genotypes from imputed probabilities.
+	  this functionality is not actually present in `+setGT`, but has been modded in;
+	  see [this repo](https://github.com/lightning-auriga/bcftools/tree/setGT_randomize) for the code.
+	  eventually, this will hopefully get migrated somewhere more useful like conda, but a local
+	  build suffices for this early stage. recommend placing the bcftools repo at `../bcftools` relative
+	  to this workflow
   - `plink2`: **configuration options specific to plink2 --glm methods**
     - `executable`: command to launch plink2. if using conda, this should remain default `plink2`
 	- `maxthreads`: maximum number of threads to deploy in a plink2 task
@@ -42,7 +51,7 @@ The following settings are available in primary user configuration under `config
   - each tag under `imputed_datasets` should be unique, and can be used to refer to the dataset in the manifest
   - each tag should contain under it:
     - `type`: descriptor of imputed file type. currently the only accepted value is `minimac4`
-	- `filename`: full path to and name of imputed data file. for minimac4: the dose.vcf.gz file
+	- `filename`: full path to and name of imputed data file(s). for minimac4: the dose.vcf.gz file(s). if multiple paths are specified in an array, the files will each be processed in turn and concatenated (in order) after run completion
 - `regression_models`: **user-defined sets of phenotypes and covariates that can be selected for analysis**
   - each tag under `regression_models` should be unique, and can be used to refer to the model in the manifest
   - each tag should contain under it:

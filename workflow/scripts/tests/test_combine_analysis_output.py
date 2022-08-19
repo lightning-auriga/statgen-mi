@@ -1,3 +1,4 @@
+import math
 import os
 import pathlib
 import runpy
@@ -131,6 +132,37 @@ def first_input_df_plink2_linear(
 
 
 @pytest.fixture
+def first_input_df_plink2_logistic(first_input_df_plink2_linear):
+    """
+    Create an input plink2 glm.logistic.hybrid file by slightly
+    modifying the first linear regression test input file
+    """
+    lindf = first_input_df_plink2_linear
+    df = pd.DataFrame(
+        {
+            "#CHROM": lindf["#CHROM"],
+            "POS": lindf["POS"],
+            "ID": lindf["ID"],
+            "REF": lindf["REF"],
+            "ALT": lindf["ALT"],
+            "A1": lindf["A1"],
+            "A1_CT": lindf["A1_CT"],
+            "A1_CASE_CT": lindf["A1_CT"],
+            "A1_CTRL_CT": lindf["A1_CT"],
+            "A1_FREQ": lindf["A1_FREQ"],
+            "A1_CASE_FREQ": lindf["A1_FREQ"],
+            "A1_CTRL_FREQ": lindf["A1_FREQ"],
+            "TEST": lindf["TEST"],
+            "OBS_CT": lindf["OBS_CT"],
+            "OR": [math.exp(beta) for beta in lindf["BETA"]],
+            "LOG(OR)_SE": lindf["SE"],
+            "P": lindf["P"],
+        }
+    )
+    return df
+
+
+@pytest.fixture
 def second_input_df_plink2_linear(
     chromosomes, positions, variant_ids, refs, alts, second_input_a1, sample_size
 ):
@@ -165,6 +197,57 @@ def second_input_df_plink2_linear(
 
 
 @pytest.fixture
+def second_input_df_plink2_logistic(second_input_df_plink2_linear):
+    """
+    Create an input plink2 glm.logistic.hybrid file by slightly
+    modifying the second linear regression test input file
+    """
+    lindf = second_input_df_plink2_linear
+    df = pd.DataFrame(
+        {
+            "#CHROM": lindf["#CHROM"],
+            "POS": lindf["POS"],
+            "ID": lindf["ID"],
+            "REF": lindf["REF"],
+            "ALT": lindf["ALT"],
+            "A1": lindf["A1"],
+            "A1_CT": lindf["A1_CT"],
+            "A1_CASE_CT": lindf["A1_CT"],
+            "A1_CTRL_CT": lindf["A1_CT"],
+            "A1_FREQ": lindf["A1_FREQ"],
+            "A1_CASE_FREQ": lindf["A1_FREQ"],
+            "A1_CTRL_FREQ": lindf["A1_FREQ"],
+            "TEST": lindf["TEST"],
+            "OBS_CT": lindf["OBS_CT"],
+            "OR": [math.exp(beta) for beta in lindf["BETA"]],
+            "LOG(OR)_SE": lindf["SE"],
+            "P": lindf["P"],
+        }
+    )
+    return df
+
+
+@pytest.fixture
+def malformed_input_df(chromosomes, positions, variant_ids, refs, alts, sample_size):
+    """
+    Create a simple DataFrame that, for simplicity,
+    doesn't match the format of any of the input types
+    accepted by combine_analysis_output
+    """
+    df = pd.DataFrame(
+        {
+            "#CHROM": chromosomes,
+            "POS": positions,
+            "ID": variant_ids,
+            "REF": refs,
+            "ALT": alts,
+            "P": "NA",
+        }
+    )
+    return df
+
+
+@pytest.fixture
 def input_file1_plink2_linear(first_input_df_plink2_linear, common_tmpdir):
     """
     Create a temporary filename and record input data in it
@@ -176,6 +259,22 @@ def input_file1_plink2_linear(first_input_df_plink2_linear, common_tmpdir):
 
 
 @pytest.fixture
+def truncated_input(first_input_df_plink2_linear, common_tmpdir):
+    """
+    Create a temporary filename and record in it the same input
+    as plink2 linear regression file 1, but with fewer lines to
+    hopefully trigger a jagged input file error
+    """
+    td = common_tmpdir
+    fn = str(td / "combine_analysis_output_plink2_linear_f1_jagged.tsv")
+    truncated_df = first_input_df_plink2_linear.iloc[
+        [i for i in range(len(first_input_df_plink2_linear) - 1)]
+    ]
+    truncated_df.to_csv(fn, sep="\t", index=False)
+    return fn
+
+
+@pytest.fixture
 def input_file2_plink2_linear(second_input_df_plink2_linear, common_tmpdir):
     """
     Create a temporary filename and record input data in it
@@ -183,6 +282,39 @@ def input_file2_plink2_linear(second_input_df_plink2_linear, common_tmpdir):
     td = common_tmpdir
     fn = str(td / "combine_analysis_output_plink2_linear_f2.tsv")
     second_input_df_plink2_linear.to_csv(fn, sep="\t", index=False)
+    return fn
+
+
+@pytest.fixture
+def input_file1_plink2_logistic(first_input_df_plink2_logistic, common_tmpdir):
+    """
+    Create a temporary filename and record input data in it
+    """
+    td = common_tmpdir
+    fn = str(td / "combine_analysis_output_plink2_logistic_f1.tsv")
+    first_input_df_plink2_logistic.to_csv(fn, sep="\t", index=False)
+    return fn
+
+
+@pytest.fixture
+def input_file2_plink2_logistic(second_input_df_plink2_logistic, common_tmpdir):
+    """
+    Create a temporary filename and record input data in it
+    """
+    td = common_tmpdir
+    fn = str(td / "combine_analysis_output_plink2_logistic_f2.tsv")
+    second_input_df_plink2_logistic.to_csv(fn, sep="\t", index=False)
+    return fn
+
+
+@pytest.fixture
+def malformed_input(malformed_input_df, common_tmpdir):
+    """
+    Create a temporary filename and record malformed input data in it
+    """
+    td = common_tmpdir
+    fn = str(td / "combine_analysis_output_malformed_input.tsv")
+    malformed_input_df.to_csv(fn, sep="\t", index=False)
     return fn
 
 
@@ -217,6 +349,17 @@ def expected_df_plink2_linear(variant_ids, refs, alts):
     return df
 
 
+@pytest.fixture
+def expected_df_plink2_logistic(expected_df_plink2_linear):
+    """
+    for assertion, record expected MI result
+    for plink2 logistic example. based on how
+    this was constructed, it should literally
+    be the same thing as the linear case
+    """
+    return expected_df_plink2_linear
+
+
 @pytest.mark.parametrize(
     "input_file1,input_file2,output_file,params_tool,params_model,expected_df",
     [
@@ -227,7 +370,15 @@ def expected_df_plink2_linear(variant_ids, refs, alts):
             "plink2",
             "glm.linear",
             pytest.lazy_fixture("expected_df_plink2_linear"),
-        )
+        ),
+        (
+            pytest.lazy_fixture("input_file1_plink2_logistic"),
+            pytest.lazy_fixture("input_file2_plink2_logistic"),
+            pytest.lazy_fixture("output_filename"),
+            "plink2",
+            "glm.logistic.hybrid",
+            pytest.lazy_fixture("expected_df_plink2_logistic"),
+        ),
     ],
 )
 def test_combine_analysis_output(
@@ -276,3 +427,94 @@ def test_script_insulation():
         runpy.run_path("workflow/scripts/combine_analysis_output.py")
     except Exception:
         pytest.fail("evaluation of script with no snakemake object failed")
+
+
+@pytest.fixture
+def dummy_smk(input_file1_plink2_linear, input_file2_plink2_linear, output_filename):
+    """
+    Construct a simple snakemake object for use
+    with error condition testers
+    """
+    snakemake_input = Namedlist(
+        fromdict={"0": input_file1_plink2_linear, "1": input_file2_plink2_linear}
+    )
+    snakemake_output = Namedlist(fromdict={"0": output_filename})
+    snakemake_params = Namedlist(fromdict={"tool": "plink2", "model": "glm.linear"})
+    smk = sms.Snakemake(
+        snakemake_input,
+        snakemake_output,
+        snakemake_params,
+        Namedlist(),
+        1,
+        Namedlist(),
+        Namedlist(),
+        {},
+        "",
+        [],
+    )
+    ## override depickling
+    smk.input = snakemake_input
+    smk.output = snakemake_output
+    smk.params = snakemake_params
+    return smk
+
+
+def test_invalid_model_handler(dummy_smk):
+    """
+    Expect that an invalid model specification results
+    in a raised exception
+    """
+    dummy_smk.params = Namedlist(
+        fromdict={"model": "quadratic", "tool": dummy_smk.params["tool"]}
+    )
+    with pytest.raises(ValueError):
+        runpy.run_path(
+            "workflow/scripts/combine_analysis_output.py",
+            init_globals={"snakemake": dummy_smk},
+        )
+
+
+def test_invalid_tool_handler(dummy_smk):
+    """
+    Expect that an invalid tool specification results
+    in a raised exception
+    """
+    dummy_smk.params = Namedlist(
+        fromdict={"model": dummy_smk.params["model"], "tool": "plink42"}
+    )
+    with pytest.raises(ValueError):
+        runpy.run_path(
+            "workflow/scripts/combine_analysis_output.py",
+            init_globals={"snakemake": dummy_smk},
+        )
+
+
+@pytest.mark.parametrize(
+    "toolname,modelname",
+    [("plink2", "glm.linear"), ("plink2", "glm.logistic")],
+)
+def test_malformed_line_handler(dummy_smk, malformed_input, toolname, modelname):
+    """
+    Expect that an invalid input line results
+    in a raised exception for all tools/models
+    """
+    dummy_smk.input[0] = malformed_input
+    dummy_smk.params = Namedlist(fromdict={"tool": toolname, "model": modelname})
+    with pytest.raises(ValueError):
+        runpy.run_path(
+            "workflow/scripts/combine_analysis_output.py",
+            init_globals={"snakemake": dummy_smk},
+        )
+
+
+def test_jagged_file_handler(dummy_smk, truncated_input):
+    """
+    Expect that code can detect when input files don't have
+    the same number of lines
+    """
+    dummy_smk.input[0] = truncated_input
+    with pytest.raises(ValueError):
+        runpy.run_path(
+            "workflow/scripts/combine_analysis_output.py",
+            init_globals={"snakemake": dummy_smk},
+        )
