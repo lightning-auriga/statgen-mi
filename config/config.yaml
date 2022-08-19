@@ -1,5 +1,8 @@
 manifest: "config/manifest.tsv"
 tools:
+  bcftools:
+    executable: "../bcftools/bcftools"
+    plugin_path: "../bcftools/plugins"
   plink2:
     executable: "plink2"
     maxthreads: 2
