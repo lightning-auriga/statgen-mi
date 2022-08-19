@@ -18,7 +18,7 @@ rule draw_from_minimac4:
     threads: 1
     resources:
         time="1:00:00",
-        mem_mb="8000M",
-        partition=config["queue"]["large_partition"],
+        mem_mb="1000M",
+        partition=config["queue"]["small_partition"],
     shell:
         'BCFTOOLS_PLUGINS="{params.bcftools_plugin_path}" {params.bcftools_exec} +setGT {input} -O z -o {output} -- -t a -n r -r GP'
