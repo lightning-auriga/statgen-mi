@@ -121,20 +121,8 @@ Whenever you change something, don't forget to commit the changes back to your g
 
 ## Testing
 
-Testing will be added for embedded snakemake python scripts shortly, with pytest. `snakemake_unit_tests` integration TBD.
+Testing for embedded snakemake python scripts is in `workflow/scripts/tests` and handled with `pytest`. `snakemake_unit_tests` integration TBD.
 
 ## Version History
 
-14 08 2022: complete rework.
-- major revisions:
-  - prior program is completely deprecated.
-  - revisions to feature set:
-    - snptest2 integration is temporarily removed
-	- plink integration is updated to plink2 --glm
-	- impute2 integration is (possibly permanently) removed
-	- minimac4 integration added
-  - configuration now under `config/` as described in readme.
-  - dependencies now managed with conda.
-  - obviously, now it's a snakemake workflow and not a random c++ program.
-
-15 11 2015: original deprecated release.
+- see [the changelog](CHANGELOG.md) for details.
