@@ -126,3 +126,4 @@ Testing for embedded snakemake python scripts is in `workflow/scripts/tests` and
 ## Version History
 
 - see [the changelog](CHANGELOG.md) for details.
+- note that this was originally written under the name "Cameron Palmer"
